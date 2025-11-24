@@ -5,18 +5,19 @@ import Button from "../ui/Button/Button";
 import { LoginData } from "../../hooks/useLogin";
 
 interface LoginFormProps {
-  onSubmit: ({ username, password } : LoginData) => void;
+  onSubmit: ({ email, password } : LoginData) => void;
   loading: boolean;
-  error?: string;
+  error: string | null;
+  SubmitRegister: () => void
 }
 
-const LoginForm = ({ onSubmit, loading = false, error }: LoginFormProps) => {
-  const [username, setUsername] = useState("");
+const LoginForm = ({ onSubmit, loading = false, error, SubmitRegister }: LoginFormProps) => {
+  const [email, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({username, password});
+    onSubmit({email, password});
   };
 
   return (
@@ -24,11 +25,11 @@ const LoginForm = ({ onSubmit, loading = false, error }: LoginFormProps) => {
       <h2>Login</h2>
 
       <div className="form-group">
-        <label>username</label>
+        <label>email</label>
         <Input
-          type="text"
+          type="email"
           placeholder="Enter your username"
-          value={username}
+          value={email}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
@@ -49,6 +50,11 @@ const LoginForm = ({ onSubmit, loading = false, error }: LoginFormProps) => {
 
       <Button type="submit" disabled={loading}>
         {loading ? "Logging in..." : "Login"}
+      </Button>
+      <Button 
+        onClick={SubmitRegister} 
+      >
+        Don't have an account? Register
       </Button>
     </Form>
   );

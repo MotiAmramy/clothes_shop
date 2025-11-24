@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/logginStore";
+import { fetchsignup } from "../api/authApi";
 
-interface SignupData {
+export interface SignupData {
   email: string;
   name: string;
   password: string;
@@ -20,32 +21,16 @@ const useSignup = () => {
     setSuccess(false);
 
     try {
-      const res = await fetch("http://localhost:5000/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, password }),
-      });
-
-      const data = await res.json().catch(() => {
-        throw new Error("Invalid response from server");
-      });
-
-      if (!res.ok) {
-        throw new Error(data.message || "Signup failed");
-      }
-
-      // בדיקה שהשרת מחזיר user תקין
-      if (!data.user) {
-        throw new Error("User data missing in response");
-      }
-
+      const data = await fetchsignup({ name, email, password });
       // שמירת המשתמש בגלובלי
       setAuthUser({
-        id: data.user.id,
+        id: data.user._id,
         name: data.user.name,
         email: data.user.email,
+        role: data.user.role,
+        token: data.token,
       });
-
+      
       setSuccess(true);
     } catch (err: any) {
       setError(err.message);

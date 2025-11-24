@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/LogginForm/LogginForm";
-import useLogin, { LoginData } from "../hooks/useLogin";
 import { useEffect } from "react";
+import useLogin from "../hooks/useLogin";
+
 
 
 const Login = () => {
@@ -12,22 +13,16 @@ const Login = () => {
     if (success) {
       navigate("/");
     }
-    
-    if (error === "USER_NOT_FOUND") {
-      navigate("/signup");
-    }
-  }, [success, error, navigate]);
-  
-  const HandleSubmit = ({ username, password }: LoginData) => login({ username, password })
+  }, [success, navigate]);
 
+  const handleSubmitRegister = () => navigate("/signup")
 
   return (
-    <LoginForm
-      onSubmit={HandleSubmit}
-      loading={loading}
-      error={error}
-    />
+    <div className="login-page">
+      <LoginForm onSubmit={login} loading={loading} error={error} SubmitRegister={handleSubmitRegister}/>
+    </div>
   );
 };
+
 
 export default Login;

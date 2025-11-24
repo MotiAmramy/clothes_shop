@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/logginStore";
+import { fetchLogin } from "../api/authApi";
 
 export interface LoginData {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -13,31 +14,7 @@ interface UseLoginReturn {
   success: boolean;
 }
 
-const API_URL = "http://localhost:5000/api/login";
 
-// פונקציה טהורה שמבצעת את ה-request
-const fetchLogin = async ({username, password}: LoginData) => {
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
-
-  const data = await res.json().catch(() => {
-    throw new Error("Invalid JSON from server");
-  });
-
-  if (!res.ok) {
-    throw new Error(data?.message || "Login failed");
-  }
-
-  // בדיקות הגנה
-  // if (!data?.user || !data.user.id || !data.user.email) {
-  //   throw new Error("Malformed response from server");
-  // }
-
-  return data;
-};
 
 const useLogin = (): UseLoginReturn => {
   const [loading, setLoading] = useState(false);
@@ -46,19 +23,20 @@ const useLogin = (): UseLoginReturn => {
 
   const { login: setAuthUser } = useAuthStore();
 
-  const login = async ({ username, password }: LoginData) => {
+  const login = async ({ email, password }: LoginData) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
 
     try {
-      const data = await fetchLogin({username, password});
+      const data = await fetchLogin({ email, password });
 
-      // עדכון ה-store
       setAuthUser({
-        id: data.user.id,
+        id: data.user._id,
         name: data.user.name,
         email: data.user.email,
+        role: data.user.role,
+        token: data.token,
       });
 
       setSuccess(true);

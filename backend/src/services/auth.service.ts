@@ -31,7 +31,7 @@ export const login = async (data: {
   password: string;
 }) => {
   const user = await User.findOne({ email: data.email });
-  if (!user) throw new Error("Invalid email or password");
+  if (!user) throw new Error("user not found!");
 
   const passwordMatch = await bcrypt.compare(data.password, user.password);
   if (!passwordMatch) throw new Error("Invalid email or password");
