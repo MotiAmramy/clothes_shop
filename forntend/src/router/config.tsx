@@ -16,14 +16,18 @@ export const config: RouterConfig = [
         component: <Home />
     },
     {
+        path: '/category/:category',
+        component: <Home />
+    },
+    {
         path: '/checkout',
-        component: <Checkout /> 
+        component: <Checkout />
     },
     {
         path: '/login',
         component: <Login />
     },
-        {
+    {
         path: '/signup',
         component: <Signup />
     }

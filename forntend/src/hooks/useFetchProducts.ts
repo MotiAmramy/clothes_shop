@@ -7,9 +7,10 @@ export interface ProductItemData {
     readonly price: number
     readonly title: string
     readonly id: number
+    readonly category: string
 }
 
-export interface FetchResponse <T> {
+export interface FetchResponse<T> {
     readonly data: T | null
     readonly error: string | null
     readonly loading: boolean
@@ -29,7 +30,7 @@ const useFetchProducts = () => {
                 // const data = await res.json()
                 setResponse({ data: mock, loading: false, error: null })
             } catch (e) {
-                setResponse({ data: null, loading: false, error: `${e}`})
+                setResponse({ data: null, loading: false, error: `${e}` })
             }
 
         })()

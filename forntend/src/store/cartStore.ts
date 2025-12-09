@@ -5,6 +5,7 @@ interface CartStore {
     readonly cart: ReadonlyArray<ProductItemData>
     readonly addItem: (item: ProductItemData) => void
     readonly removeItem: (id: number) => void
+    readonly clearCart: () => void
 }
 
 const useCartStore = create<CartStore>((set) => ({
@@ -13,7 +14,8 @@ const useCartStore = create<CartStore>((set) => ({
     removeItem: (itemId) => set((pre) => ({
         ...pre, 
         cart: pre.cart.filter(({ id }) => id !== itemId )
-    }))
+    })),
+    clearCart: () => set({ cart: [] })
 }))
 
 export default useCartStore

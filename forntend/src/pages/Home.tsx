@@ -2,18 +2,25 @@ import List from "../components/List/List"
 import ProductItem from "../components/ProductItem/ProductItem"
 import useFetchProducts from "../hooks/useFetchProducts"
 import { useAuthStore } from "../store/logginStore"
+import { useParams } from "react-router-dom"
 
 const Home = () => {
-    const {data,loading, error} = useFetchProducts()
+    const { data, loading, error } = useFetchProducts()
     const { user } = useAuthStore()
+    const { category } = useParams()
+
     if (error) {
         return <h1>{error}</h1>
     }
-    
+
+    const filteredData = category
+        ? data?.filter(item => item.category === category)
+        : data
+
     return loading ? <>Loading...</> : (
         <>
-        {user && <h2>hello {user.name}</h2>}
-        { data && <List data={data!} Item={ProductItem} /> }
+            {user && <h2>hello {user.name}</h2>}
+            {filteredData && <List data={filteredData} Item={ProductItem} />}
         </>
     )
 }

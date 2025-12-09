@@ -3,6 +3,7 @@ import Button from "../ui/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaCartShopping } from "react-icons/fa6";
 import { useAuthStore } from "../../store/logginStore";
+import useCartStore from "../../store/cartStore";
 
 const StyledNav = styled.nav`
   box-shadow: 0px 2px 3px #dedede;
@@ -15,7 +16,9 @@ const StyledNav = styled.nav`
 const Navigation = () => {
   const location = useLocation()
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuthStore()
+
+  const { isLoggedIn, logout } = useAuthStore()
+  const { clearCart } = useCartStore()
 
   const navigateHome = () => {
     navigate("/");
@@ -25,24 +28,33 @@ const Navigation = () => {
     navigate("/checkout");
   };
 
- const navigateLogin = () => {
+  const navigateLogin = () => {
     navigate("/login");
+  };
+
+  const handleLogout = () => {
+    logout();
+    clearCart();
+    navigate("/");
   };
 
 
 
 
- return (
+  return (
     <StyledNav color="blue">
       <Button onClick={navigateHome}>Home</Button>
       {isLoggedIn && (
-        <Button onClick={navigateCheckout}>
-          <FaCartShopping />
-        </Button>
+        <>
+          <Button onClick={navigateCheckout}>
+            <FaCartShopping />
+          </Button>
+          <Button onClick={handleLogout}>Logout</Button>
+        </>
       )}
-      {location.pathname !== '/login' &&!isLoggedIn && (
+      {location.pathname !== '/login' && !isLoggedIn && (
         <Button onClick={navigateLogin}>Login</Button>
-    )}
+      )}
     </StyledNav>
   );
 };
