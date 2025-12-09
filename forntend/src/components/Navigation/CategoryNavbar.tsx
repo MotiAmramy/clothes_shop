@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../ui/Button/Button";
 import { StyledNav } from "./Navigation";
 
@@ -13,6 +13,12 @@ const categories = [
 
 const CategoryNavbar = () => {
     const navigate = useNavigate();
+    const location = useLocation()
+
+
+    if (location.pathname !== '/') {
+        return null;
+    }
 
     const handleCategoryClick = (category: string) => {
         navigate(`/category/${category}`);
