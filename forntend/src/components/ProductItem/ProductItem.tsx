@@ -4,8 +4,10 @@ import Button from "../ui/Button/Button";
 import useCartStore from "../../store/cartStore";
 import { useAuthStore } from "../../store/logginStore";
 import { useNavigate } from "react-router-dom";
+import { useUiStore } from "../../store/uiStore";
 
 const ProductContainer = styled.div`
+  cursor: pointer;
   padding: 1rem;
   border-radius: 5px;
   border: 1px solid #d3d3d3;
@@ -29,12 +31,13 @@ interface ProductItemProps {
 
 const ProductItem = ({ data }: ProductItemProps) => {
   const { image, title, price, description } = data;
-  const  { addItem } = useCartStore()
+  const { addItem } = useCartStore()
   const { isLoggedIn } = useAuthStore()
   const navigate = useNavigate()
+  const { openModal } = useUiStore()
 
   return (
-    <ProductContainer>
+    <ProductContainer onClick={() => openModal(data)}>
       <ProductImage src={image} />
       <h2>
         {title} {price}$

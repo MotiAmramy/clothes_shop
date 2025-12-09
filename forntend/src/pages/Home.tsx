@@ -1,5 +1,6 @@
 import List from "../components/List/List"
 import ProductItem from "../components/ProductItem/ProductItem"
+import ProductModal from "../components/ProductModal/ProductModal"
 import useFetchProducts from "../hooks/useFetchProducts"
 import { useAuthStore } from "../store/logginStore"
 import { useParams } from "react-router-dom"
@@ -21,6 +22,7 @@ const Home = () => {
         <>
             {user && <h2>hello {user.name}</h2>}
             {filteredData && <List data={filteredData} Item={ProductItem} />}
+            <ProductModal />
         </>
     )
 }

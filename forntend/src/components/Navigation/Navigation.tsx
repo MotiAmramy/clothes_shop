@@ -5,7 +5,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { useAuthStore } from "../../store/logginStore";
 import useCartStore from "../../store/cartStore";
 
-const StyledNav = styled.nav`
+export const StyledNav = styled.nav`
   box-shadow: 0px 2px 3px #dedede;
   display: flex;
   gap: 1rem;
@@ -42,7 +42,7 @@ const Navigation = () => {
 
 
   return (
-    <StyledNav color="blue">
+    <StyledNav>
       <Button onClick={navigateHome}>Home</Button>
       {isLoggedIn && (
         <>
