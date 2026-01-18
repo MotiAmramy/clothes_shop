@@ -17,7 +17,7 @@ const Navigation = () => {
   const location = useLocation()
   const navigate = useNavigate();
 
-  const { isLoggedIn, logout } = useAuthStore()
+  const { isLoggedIn, logout, user } = useAuthStore()
   const { clearCart } = useCartStore()
 
   const navigateHome = () => {
@@ -49,6 +49,9 @@ const Navigation = () => {
           <Button onClick={navigateCheckout}>
             <FaCartShopping />
           </Button>
+          {user?.role === 'admin' && (
+            <Button onClick={() => navigate('/admin')}>Admin</Button>
+          )}
           <Button onClick={handleLogout}>Logout</Button>
         </>
       )}

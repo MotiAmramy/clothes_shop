@@ -2,6 +2,8 @@ import Checkout from "../pages/Checkout"
 import Home from "../pages/Home"
 import Login from "../pages/Login"
 import Signup from "../pages/Signup"
+import AdminPage from "../pages/AdminPage"
+import ProfilePage from "../pages/ProfilePage"
 
 interface RouteItem {
     readonly path: string
@@ -30,5 +32,13 @@ export const config: RouterConfig = [
     {
         path: '/signup',
         component: <Signup />
+    },
+    {
+        path: '/admin',
+        component: <AdminPage />
+    },
+    {
+        path: '/profile',
+        component: <ProfilePage />
     }
 ]

@@ -5,41 +5,7 @@ import useCartStore from "../../store/cartStore";
 import { useAuthStore } from "../../store/logginStore";
 import { useNavigate } from "react-router-dom";
 
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
-
-const ModalContainer = styled.div`
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  max-width: 500px;
-  width: 90%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-`;
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-`;
+import Modal from "../ui/Modal/Modal";
 
 const ProductImage = styled.img`
   max-width: 100%;
@@ -48,35 +14,34 @@ const ProductImage = styled.img`
 `;
 
 const ProductModal = () => {
-    const { selectedProduct, isModalOpen, closeModal } = useUiStore();
-    const { addItem } = useCartStore();
-    const { isLoggedIn } = useAuthStore();
-    const navigate = useNavigate();
+  const { selectedProduct, isModalOpen, closeModal } = useUiStore();
+  const { addItem } = useCartStore();
+  const { isLoggedIn } = useAuthStore();
+  const navigate = useNavigate();
 
-    if (!isModalOpen || !selectedProduct) return null;
+  if (!isModalOpen || !selectedProduct) return null;
 
-    const handleAddToCart = () => {
-        if (isLoggedIn) {
-            addItem(selectedProduct);
-            closeModal();
-        } else {
-            closeModal();
-            navigate("/login");
-        }
-    };
+  const handleAddToCart = () => {
+    if (isLoggedIn) {
+      addItem(selectedProduct);
+      closeModal();
+    } else {
+      closeModal();
+      navigate("/login");
+    }
+  };
 
-    return (
-        <Overlay onClick={closeModal}>
-            <ModalContainer onClick={(e) => e.stopPropagation()}>
-                <CloseButton onClick={closeModal}>&times;</CloseButton>
-                <ProductImage src={selectedProduct.image} alt={selectedProduct.title} />
-                <h2>{selectedProduct.title}</h2>
-                <p>{selectedProduct.description}</p>
-                <h3>${selectedProduct.price}</h3>
-                <Button onClick={handleAddToCart}>Add to Cart</Button>
-            </ModalContainer>
-        </Overlay>
-    );
+  return (
+    <Modal isOpen={true} onClose={closeModal}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
+        <ProductImage src={selectedProduct.image} alt={selectedProduct.title} />
+        <h2 style={{ textAlign: "center" }}>{selectedProduct.title}</h2>
+        <p style={{ textAlign: "center", color: "#666" }}>{selectedProduct.description}</p>
+        <h3 style={{ color: "#333" }}>${selectedProduct.price}</h3>
+        <Button onClick={handleAddToCart}>Add to Cart</Button>
+      </div>
+    </Modal>
+  );
 };
 
 export default ProductModal;

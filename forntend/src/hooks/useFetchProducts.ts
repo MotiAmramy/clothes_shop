@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import mock from "../mock/store.mock"
+import { fetchProducts } from "../api/productApi"
 
 export interface ProductItemData {
     readonly description: string
     readonly image: string
     readonly price: number
     readonly title: string
-    readonly id: number
+    readonly _id: string
     readonly category: string
 }
 
@@ -26,11 +26,10 @@ const useFetchProducts = () => {
     useEffect(() => {
         (async () => {
             try {
-                // const res = await fetch('https://fakestoreapi.com/products')
-                // const data = await res.json()
-                setResponse({ data: mock, loading: false, error: null })
-            } catch (e) {
-                setResponse({ data: null, loading: false, error: `${e}` })
+                const data = await fetchProducts()
+                setResponse({ data: data, loading: false, error: null })
+            } catch (e: any) {
+                setResponse({ data: null, loading: false, error: e.message || 'Failed to fetch products' })
             }
 
         })()

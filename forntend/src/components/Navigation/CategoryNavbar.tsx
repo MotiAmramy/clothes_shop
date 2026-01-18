@@ -16,7 +16,7 @@ const CategoryNavbar = () => {
     const location = useLocation()
 
 
-    if (location.pathname !== '/') {
+    if (location.pathname !== '/' && !location.pathname.startsWith('/category/')) {
         return null;
     }
 

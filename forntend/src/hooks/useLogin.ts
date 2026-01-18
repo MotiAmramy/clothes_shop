@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/logginStore";
 import { fetchLogin } from "../api/authApi";
+import useCartStore from "../store/cartStore";
 
 export interface LoginData {
   email: string;
@@ -40,6 +41,7 @@ const useLogin = (): UseLoginReturn => {
       });
 
       setSuccess(true);
+      useCartStore.getState().loadCart();
 
     } catch (err: any) {
       setError(err.message || "Unknown error");
