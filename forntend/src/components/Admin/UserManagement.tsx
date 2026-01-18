@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { User, fetchUsers, updateUser } from "../../api/adminApi";
+import { User, deleteUser, fetchUsers, updateUser } from "../../api/adminApi";
 import { useAuthStore } from "../../store/logginStore";
 import Table from "../ui/Table/Table";
+import Button from "../ui/Button/Button";
 
 const UserManagement = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -25,16 +26,29 @@ const UserManagement = () => {
     };
 
     const handleRoleChange = async (userId: string, newRole: "user" | "admin") => {
-        if (userId === currentUser?.id) {
+        if (userId === currentUser?._id) {
             alert("You cannot change your own role");
             return;
         }
 
         try {
-            await updateUser(userId, { "role": newRole });
+            await updateUser(userId, { role: newRole });
             setUsers(users.map((u) => (u._id === userId ? { ...u, role: newRole } : u)));
         } catch (err: any) {
             alert(err.message || "Failed to update role");
+        }
+    };
+
+    const handleDelete = async (userId: string) => {
+        if (userId === currentUser?._id) {
+            alert("You cannot delete yourself");
+            return;
+        }
+        try {
+            await deleteUser(userId);
+            setUsers(users.filter((u) => u._id !== userId));
+        } catch (err: any) {
+            alert(err.message || "Failed to delete user");
         }
     };
 
@@ -65,7 +79,7 @@ const UserManagement = () => {
                                 </span>
                             </td>
                             <td>
-                                {u._id !== currentUser?.id && (
+                                {u._id !== currentUser?._id && (
                                     <select
                                         value={u.role}
                                         onChange={(e) => handleRoleChange(u._id, e.target.value as "user" | "admin")}
@@ -75,6 +89,14 @@ const UserManagement = () => {
                                         <option value="admin">Admin</option>
                                     </select>
                                 )}
+                            </td>
+                            <td>
+                                <Button
+                                    variant="danger"
+                                    onClick={() => handleDelete(u._id)}
+                                >
+                                    Delete
+                                </Button>
                             </td>
                         </tr>
                     ))}

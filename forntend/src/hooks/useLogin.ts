@@ -33,7 +33,7 @@ const useLogin = (): UseLoginReturn => {
       const data = await fetchLogin({ email, password });
 
       setAuthUser({
-        id: data.user._id,
+        _id: data.user._id,
         name: data.user.name,
         email: data.user.email,
         role: data.user.role,
