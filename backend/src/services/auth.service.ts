@@ -1,5 +1,5 @@
 import { User } from "../models/user.model";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { env } from "../config/env";
 import { Types } from "mongoose";

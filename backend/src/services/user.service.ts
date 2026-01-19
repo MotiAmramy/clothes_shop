@@ -8,13 +8,16 @@ export const getAllUsers = async () => {
   return await User.find().select("-password");
 };
 
-export const updateUser = async (
-  id: string,
-  data: Partial<{ name: string; email: string; password: string }>
+export const updateUserById = async (
+  _id: string,
+  data: Partial<{ name: string; email: string; password: string, role: "admin" | "user" }>
 ) => {
-  return await User.findByIdAndUpdate(id, data, { new: true });
+  console.log(_id);
+  console.log(data);
+
+  return await User.findByIdAndUpdate(_id, data, { new: true });
 };
 
-export const deleteUser = async (id: string) => {
-  return await User.findByIdAndDelete(id);
+export const deleteUser = async (_id: string) => {
+  return await User.findByIdAndDelete(_id);
 };
