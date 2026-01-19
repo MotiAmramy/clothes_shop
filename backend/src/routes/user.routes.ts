@@ -8,7 +8,7 @@ const router = Router();
 router.get("/", auth, isAdmin, getUsers);
 router.get("/:id", auth, getUser);
 
-router.put("/:id", auth, isAdmin, updateUser);
+router.put("/:id", auth, updateUser);
 router.delete("/:id", auth, isAdmin, deleteUser);
 
 export default router;

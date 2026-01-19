@@ -8,8 +8,6 @@ export interface AuthRequest extends Request {
 
 export const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
   const header = req.headers.authorization;
-  console.log(req.body);
-
 
   if (!header || !header.startsWith("Bearer "))
     return res.status(401).json({ error: "Not authorized" });
@@ -21,7 +19,6 @@ export const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
       id: string;
       role: string;
     };
-    console.log(decoded);
 
 
     req.user = decoded;

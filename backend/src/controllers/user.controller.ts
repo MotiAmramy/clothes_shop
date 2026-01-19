@@ -20,11 +20,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
 };
 
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-  console.log(req);
-
   try {
-    console.log(req);
-
     const user = await userService.updateUserById(req.params.id, req.body);
     res.json(user);
   } catch (err) {
