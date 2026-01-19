@@ -96,7 +96,14 @@ const ProductManagement = () => {
             <div className="admin-card-header">
                 <h3>Product Management</h3>
 
-                <Button variant="secondary" onClick={() => {
+                <Button variant="secondary" style={{
+                    backgroundColor: "#2563eb",
+                    color: "white",
+                    fontWeight: 600,
+                    padding: "10px 22px",
+                    borderRadius: "10px",
+                    transition: "all 0.2s ease",
+                }} onClick={() => {
                     setModalMode("add")
                 }}>
                     Add Product
@@ -121,7 +128,7 @@ const ProductManagement = () => {
                 {error && <p>Error loading products</p>}
 
                 {!loading && products && (
-                    <Table headers={["Image", "Title", "Price", "Category", "Description", "id"]}>
+                    <Table headers={["Image", "Title", "Price", "Category", "Description", "Actions"]}>
                         {products.map((p) => (
                             <tr key={p._id}>
                                 <td>
@@ -139,13 +146,11 @@ const ProductManagement = () => {
                                 <td>{p.description}</td>
                                 <td>
                                     <Button
-                                        variant="danger"
                                         onClick={() => handleDelete(p._id)}
                                     >
                                         Delete
                                     </Button>
                                     <Button
-                                        variant="danger"
                                         onClick={() => {
                                             setFormData({
                                                 title: p.title,

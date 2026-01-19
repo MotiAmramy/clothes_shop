@@ -1,13 +1,14 @@
-import { useState } from "react";
 import UserManagement from "../components/Admin/UserManagement";
 import ProductManagement from "../components/Admin/ProductManagement";
 import { useAuthStore } from "../store/logginStore";
 import { Navigate } from "react-router-dom";
+import { useAdminStore } from "../store/tabStore";
 import Button from "../components/ui/Button/Button";
+
 
 const AdminPage = () => {
     const { user, isLoggedIn } = useAuthStore();
-    const [activeTab, setActiveTab] = useState<"users" | "products">("users");
+    const { activeTab, setActiveTab } = useAdminStore();
 
     if (!isLoggedIn || user?.role !== "admin") {
         return <Navigate to="/" />;
@@ -15,17 +16,46 @@ const AdminPage = () => {
 
     return (
         <div className="admin-page" style={{ padding: "20px" }}>
-            <h1>Admin Dashboard</h1>
-            <div style={{ marginBottom: "20px", backgroundColor: "lightblue" }}>
+            <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
+                Admin Dashboard
+            </h1>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "10px",
+                    backgroundColor: "#f1f5f9",
+                    padding: "8px",
+                    borderRadius: "12px",
+                    width: "fit-content",
+                    margin: "0 auto 30px",
+                }}
+            >
+
                 <Button
                     onClick={() => setActiveTab("users")}
-                    style={{ marginRight: "10px", fontWeight: activeTab === "users" ? "bold" : "normal" }}
+                    style={{
+                        backgroundColor: activeTab === "users" ? "#2563eb" : "transparent",
+                        color: activeTab === "users" ? "white" : "#1e293b",
+                        fontWeight: 600,
+                        padding: "10px 22px",
+                        borderRadius: "10px",
+                        transition: "all 0.2s ease",
+                    }}
                 >
                     Manage Users
                 </Button>
+
                 <Button
                     onClick={() => setActiveTab("products")}
-                    style={{ fontWeight: activeTab === "products" ? "bold" : "normal" }}
+                    style={{
+                        backgroundColor: activeTab === "products" ? "#2563eb" : "transparent",
+                        color: activeTab === "products" ? "white" : "#1e293b",
+                        fontWeight: 600,
+                        padding: "10px 22px",
+                        borderRadius: "10px",
+                        transition: "all 0.2s ease",
+                    }}
                 >
                     Manage Products
                 </Button>
