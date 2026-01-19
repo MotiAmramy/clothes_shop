@@ -1,10 +1,10 @@
 import UserManagement from "../components/Admin/UserManagement";
 import ProductManagement from "../components/Admin/ProductManagement";
+import CategoryManagement from "../components/Admin/CategoryManagement";
 import { useAuthStore } from "../store/logginStore";
 import { Navigate } from "react-router-dom";
 import { useAdminStore } from "../store/tabStore";
 import Button from "../components/ui/Button/Button";
-
 
 const AdminPage = () => {
     const { user, isLoggedIn } = useAuthStore();
@@ -59,10 +59,26 @@ const AdminPage = () => {
                 >
                     Manage Products
                 </Button>
+
+                <Button
+                    onClick={() => setActiveTab("categories")}
+                    style={{
+                        backgroundColor: activeTab === "categories" ? "#2563eb" : "transparent",
+                        color: activeTab === "categories" ? "white" : "#1e293b",
+                        fontWeight: 600,
+                        padding: "10px 22px",
+                        borderRadius: "10px",
+                        transition: "all 0.2s ease",
+                    }}
+                >
+                    Manage Categories
+                </Button>
             </div>
 
             <div className="admin-content">
-                {activeTab === "users" ? <UserManagement /> : <ProductManagement />}
+                {activeTab === "users" && <UserManagement />}
+                {activeTab === "products" && <ProductManagement />}
+                {activeTab === "categories" && <CategoryManagement />}
             </div>
         </div>
     );

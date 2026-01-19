@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useFetchProducts, { ProductItemData } from "../../hooks/useFetchProducts";
 import { addProduct, deleteProduct, updateProduct } from "../../api/productApi";
+import { fetchCategories, Category } from "../../api/categoryApi";
 import Table from "../ui/Table/Table";
 import Button from "../ui/Button/Button";
 import AdminProductModal from "./productsManagments/ProductModal";
@@ -12,6 +13,7 @@ const ProductManagement = () => {
     const [editingId, setEditingId] = useState<string | null>(null);
     const { data, loading, error } = useFetchProducts();
     const [products, setProducts] = useState<ProductItemData[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [formData, setFormData] = useState<Omit<ProductItemData, "_id">>({
         title: "",
         price: 0,
@@ -27,8 +29,12 @@ const ProductManagement = () => {
         setProducts([...data]);
     }, [data]);
 
+    useEffect(() => {
+        fetchCategories().then(setCategories).catch(console.error);
+    }, []);
+
     const handleInputChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         const { name, value } = e.target;
 
@@ -114,6 +120,7 @@ const ProductManagement = () => {
                 isOpen={isOpen}
                 isEdit={isEdit}
                 formData={formData}
+                categories={categories}
                 onChange={handleInputChange}
                 onSubmit={handleSubmit}
                 onClose={() => {

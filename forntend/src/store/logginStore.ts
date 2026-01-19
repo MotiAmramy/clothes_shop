@@ -2,23 +2,22 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface AuthUser {
-  id: string;
-  name: string;
-  email: string;
-  role: "user" | "admin";
-  token: string;
+    _id: string;
+    name: string;
+    email: string;
+    role: "user" | "admin";
+    token: string;
 }
 
 interface AuthState {
-  user: AuthUser | null;
-  isLoggedIn: boolean;
-  login: (data: AuthUser) => void;
-  logout: () => void;
+    user: AuthUser | null;
+    isLoggedIn: boolean;
+    login: (data: AuthUser) => void;
+    logout: () => void;
 }
 
-
 export const useAuthStore = create<AuthState>()(
-persist(
+    persist(
         (set) => ({
             user: null,
             isLoggedIn: false,
@@ -32,8 +31,8 @@ persist(
                 isLoggedIn: false,
             })
         }),
-            {
-                name: "auth-storage",
-            }
+        {
+            name: "auth-storage",
+        }
     )
 )

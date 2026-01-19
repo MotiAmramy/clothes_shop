@@ -39,7 +39,7 @@ const CartItem = ({ item }: CartItemProps) => {
       </CartItemContent>
       <DeleteArea>
         <Button
-          onClick={() => removeItem(item.id)}
+          onClick={() => removeItem(item._id)}
           style={{ fontSize: "30px", color: "#700d0d" }}
         >
           <MdDelete />

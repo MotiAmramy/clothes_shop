@@ -4,6 +4,7 @@ import Login from "../pages/Login"
 import Signup from "../pages/Signup"
 import AdminPage from "../pages/AdminPage"
 import ProfilePage from "../pages/ProfilePage"
+import OrdersPage from "../pages/OrdersPage"
 
 interface RouteItem {
     readonly path: string
@@ -40,5 +41,9 @@ export const config: RouterConfig = [
     {
         path: '/profile',
         component: <ProfilePage />
+    },
+    {
+        path: '/orders',
+        component: <OrdersPage />
     }
 ]

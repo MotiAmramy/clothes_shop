@@ -21,7 +21,7 @@ const ProductContainer = styled.div`
 `;
 
 const ProductImage = styled.img`
-  width: 5rem;
+  width: 150px;
   border-radius: 5px;
 `;
 
@@ -43,7 +43,17 @@ const ProductItem = ({ data }: ProductItemProps) => {
         {title} {price}$
       </h2>
       <p>{description}</p>
-      {isLoggedIn ? <Button onClick={() => addItem(data)}>Add to cart</Button> : <Button onClick={() => navigate('/login')}>Add to cart</Button>}
+      {isLoggedIn ? <Button onClick={(e) => {
+        addItem(data)
+        e.stopPropagation();
+      }}>
+        Add to cart
+      </Button> : <Button onClick={(e) => {
+        e.stopPropagation();
+        navigate('/login')
+      }}>
+        Add to cart
+      </Button>}
     </ProductContainer>
   );
 };

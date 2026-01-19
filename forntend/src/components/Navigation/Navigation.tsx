@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import Button from "../ui/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaUser } from "react-icons/fa6";
 import { useAuthStore } from "../../store/logginStore";
 import useCartStore from "../../store/cartStore";
 
@@ -11,6 +11,20 @@ export const StyledNav = styled.nav`
   gap: 1rem;
   padding: 0.5rem;
   justify-content: space-between;
+`;
+
+const NavGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
+const Logo = styled.h1`
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: #333;
+  cursor: pointer;
 `;
 
 const Navigation = () => {
@@ -43,15 +57,22 @@ const Navigation = () => {
 
   return (
     <StyledNav>
-      <Button onClick={navigateHome}>Home</Button>
+      <NavGroup>
+        <Logo onClick={navigateHome}>Moda</Logo>
+        <Button onClick={navigateHome}>Home</Button>
+      </NavGroup>
       {isLoggedIn && (
         <>
           <Button onClick={navigateCheckout}>
             <FaCartShopping />
           </Button>
+          <Button onClick={() => navigate('/orders')}>My Orders</Button>
           {user?.role === 'admin' && (
             <Button onClick={() => navigate('/admin')}>Admin</Button>
           )}
+          <Button onClick={() => navigate('/profile')}>
+            <FaUser />
+          </Button>
           <Button onClick={handleLogout}>Logout</Button>
         </>
       )}

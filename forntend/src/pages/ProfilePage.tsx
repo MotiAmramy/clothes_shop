@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/logginStore";
-import { updateProfile } from "../api/userApi";
 import { Navigate } from "react-router-dom";
+import Form from "../components/ui/Form/Form";
+import Input from "../components/ui/Input/Input";
+import Button from "../components/ui/Button/Button";
+import { updateUser } from "../api/userApi";
 
 const ProfilePage = () => {
     const { user, isLoggedIn, login } = useAuthStore();
@@ -18,7 +21,8 @@ const ProfilePage = () => {
         setMessage("");
 
         try {
-            const updatedUser = await updateProfile({
+            console.log(user);
+            const updatedUser = await updateUser(user?._id, {
                 name,
                 password: password || undefined
             });
@@ -41,10 +45,10 @@ const ProfilePage = () => {
     return (
         <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
             <h2>My Profile</h2>
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <Form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 <div>
                     <label style={{ display: "block", marginBottom: "0.5rem" }}>Name</label>
-                    <input
+                    <Input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -54,17 +58,17 @@ const ProfilePage = () => {
                 </div>
                 <div>
                     <label style={{ display: "block", marginBottom: "0.5rem" }}>New Password (leave blank to keep current)</label>
-                    <input
+                    <Input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         style={{ padding: "0.5rem", width: "100%" }}
                     />
                 </div>
-                <button type="submit" style={{ padding: "0.5rem 1rem", marginTop: "1rem", cursor: "pointer" }}>
+                <Button type="submit" style={{ padding: "0.5rem 1rem", marginTop: "1rem", cursor: "pointer" }}>
                     Update Profile
-                </button>
-            </form>
+                </Button>
+            </Form>
             {message && <p style={{ marginTop: "1rem", color: message.includes("success") ? "green" : "red" }}>{message}</p>}
         </div>
     );

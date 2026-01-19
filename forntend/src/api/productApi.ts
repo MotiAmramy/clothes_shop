@@ -6,11 +6,11 @@ export const fetchProducts = async (): Promise<ReadonlyArray<ProductItemData>> =
 };
 
 // Admin only functions
-export const addProduct = async (product: Omit<ProductItemData, "_id">) => {
+export const addProduct = async (product: Omit<ProductItemData, "_id">): Promise<ProductItemData> => {
     return client.post("/products", product);
 };
 
-export const updateProduct = async (id: string, product: Partial<ProductItemData>) => {
+export const updateProduct = async (id: string, product: Partial<ProductItemData>): Promise<ProductItemData> => {
     return client.put(`/products/${id}`, product);
 };
 

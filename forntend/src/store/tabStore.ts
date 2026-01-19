@@ -3,8 +3,8 @@
 import { create } from "zustand";
 
 interface TabStore {
-    activeTab: "users" | "products";
-    setActiveTab: (tab: "users" | "products") => void;
+    activeTab: "users" | "products" | "categories";
+    setActiveTab: (tab: "users" | "products" | "categories") => void;
 }
 
 export const useAdminStore = create<TabStore>((set) => ({
