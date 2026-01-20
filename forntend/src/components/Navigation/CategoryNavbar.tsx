@@ -22,7 +22,7 @@ const CategoryNavbar = () => {
     };
 
     return (
-        <StyledNav>
+        <StyledNav color="#fbc0bbff">
             <Button onClick={() => navigate("/")}>All</Button>
             {categories.map((cat) => (
                 <Button key={cat._id} onClick={() => handleCategoryClick(cat.name)}>

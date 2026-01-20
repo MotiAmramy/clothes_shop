@@ -5,6 +5,7 @@ import { fetchCategories, Category } from "../../api/categoryApi";
 import Table from "../ui/Table/Table";
 import Button from "../ui/Button/Button";
 import AdminProductModal from "./productsManagments/ProductModal";
+import { AdminTitles } from "../AdminTitle/AdminTitle";
 
 
 const ProductManagement = () => {
@@ -100,21 +101,21 @@ const ProductManagement = () => {
     return (
         <div className="admin-card">
             <div className="admin-card-header">
-                <h3>Product Management</h3>
-
-                <Button variant="secondary" style={{
-                    backgroundColor: "#2563eb",
-                    color: "white",
-                    fontWeight: 600,
-                    padding: "10px 22px",
-                    borderRadius: "10px",
-                    transition: "all 0.2s ease",
-                }} onClick={() => {
-                    setModalMode("add")
-                }}>
-                    Add Product
-                </Button>
+                <AdminTitles title="Product Management" size="2rem" />
             </div>
+
+            <Button style={{
+                backgroundColor: "#2563eb",
+                color: "white",
+                fontWeight: 600,
+                padding: "10px 22px",
+                borderRadius: "10px",
+                transition: "all 0.2s ease",
+            }} onClick={() => {
+                setModalMode("add")
+            }}>
+                Add Product
+            </Button>
 
             <AdminProductModal
                 isOpen={isOpen}
@@ -164,7 +165,7 @@ const ProductManagement = () => {
                                                 price: p.price,
                                                 description: p.description,
                                                 category: p.category,
-                                                image: p.title,
+                                                image: p.image,
                                             });
                                             setEditingId(p._id)
                                             setModalMode("edit")

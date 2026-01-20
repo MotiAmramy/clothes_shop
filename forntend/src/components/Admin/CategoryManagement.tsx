@@ -4,6 +4,7 @@ import Button from "../ui/Button/Button";
 import Table from "../ui/Table/Table";
 import Input from "../ui/Input/Input";
 import Form from "../ui/Form/Form";
+import { AdminTitles } from "../AdminTitle/AdminTitle";
 
 const CategoryManagement = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -49,7 +50,7 @@ const CategoryManagement = () => {
     return (
         <div className="admin-card">
             <div className="admin-card-header">
-                <h3>Category Management</h3>
+                <AdminTitles title="Category Management" size="2rem" />
             </div>
 
             <div style={{ padding: "1rem" }}>

@@ -5,6 +5,11 @@ import { useAuthStore } from "../store/logginStore";
 import { Navigate } from "react-router-dom";
 import { useAdminStore } from "../store/tabStore";
 import Button from "../components/ui/Button/Button";
+import { AdminTitles } from "../components/AdminTitle/AdminTitle";
+
+
+
+
 
 const AdminPage = () => {
     const { user, isLoggedIn } = useAuthStore();
@@ -16,9 +21,7 @@ const AdminPage = () => {
 
     return (
         <div className="admin-page" style={{ padding: "20px" }}>
-            <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
-                Admin Dashboard
-            </h1>
+            <AdminTitles title="Admin Dashboard" size="2.5rem" />
             <div
                 style={{
                     display: "flex",

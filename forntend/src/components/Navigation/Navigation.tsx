@@ -11,7 +11,10 @@ export const StyledNav = styled.nav`
   gap: 1rem;
   padding: 0.5rem;
   justify-content: space-between;
+  background-color: ${(props) => props.color || "#6C5B7B"};
+  color: white;
 `;
+
 
 const NavGroup = styled.div`
   display: flex;
@@ -56,13 +59,13 @@ const Navigation = () => {
 
 
   return (
-    <StyledNav>
+    <StyledNav color="#d9c0c0ff">
       <NavGroup>
         <Logo onClick={navigateHome}>Moda</Logo>
-        <Button onClick={navigateHome}>Home</Button>
       </NavGroup>
       {isLoggedIn && (
         <>
+          <Button onClick={handleLogout}>Logout</Button>
           <Button onClick={navigateCheckout}>
             <FaCartShopping />
           </Button>
@@ -70,10 +73,10 @@ const Navigation = () => {
           {user?.role === 'admin' && (
             <Button onClick={() => navigate('/admin')}>Admin</Button>
           )}
+          <Button onClick={navigateHome}>Home</Button>
           <Button onClick={() => navigate('/profile')}>
             <FaUser />
           </Button>
-          <Button onClick={handleLogout}>Logout</Button>
         </>
       )}
       {location.pathname !== '/login' && !isLoggedIn && (

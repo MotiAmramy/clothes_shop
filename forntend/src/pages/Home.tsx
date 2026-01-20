@@ -1,9 +1,11 @@
 import List from "../components/List/List"
 import ProductItem from "../components/ProductItem/ProductItem"
 import ProductModal from "../components/ProductModal/ProductModal"
+import { Welcome } from "../components/Welcome/welcome"
 import useFetchProducts from "../hooks/useFetchProducts"
 import { useAuthStore } from "../store/logginStore"
 import { useParams } from "react-router-dom"
+
 
 const Home = () => {
     const { data, loading, error } = useFetchProducts()
@@ -20,7 +22,7 @@ const Home = () => {
 
     return loading ? <>Loading...</> : (
         <>
-            {user && <h2>hello {user.name}</h2>}
+            {user && <Welcome name={user.name} />}
             {filteredData && <List data={filteredData} Item={ProductItem} />}
             <ProductModal />
         </>

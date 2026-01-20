@@ -3,6 +3,7 @@ import { User, deleteUser, fetchUsers, updateUser } from "../../api/adminApi";
 import { useAuthStore } from "../../store/logginStore";
 import Table from "../ui/Table/Table";
 import Button from "../ui/Button/Button";
+import { AdminTitles } from "../AdminTitle/AdminTitle";
 
 const UserManagement = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -58,7 +59,7 @@ const UserManagement = () => {
     return (
         <div className="admin-card">
             <div className="admin-card-header">
-                <h3>User Management</h3>
+                <AdminTitles title="User Management" size="2rem" />
             </div>
 
             <div className="admin-table">
