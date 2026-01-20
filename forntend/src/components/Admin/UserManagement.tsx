@@ -93,7 +93,6 @@ const UserManagement = () => {
                             </td>
                             <td>
                                 <Button
-                                    variant="danger"
                                     onClick={() => handleDelete(u._id)}
                                 >
                                     Delete
