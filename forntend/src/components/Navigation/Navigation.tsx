@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FaCartShopping, FaUser } from "react-icons/fa6";
 import { useAuthStore } from "../../store/logginStore";
 import useCartStore from "../../store/cartStore";
+import { useUiStore } from "../../store/uiStore";
 
 export const StyledNav = styled.nav`
   box-shadow: 0px 2px 3px #dedede;
@@ -36,13 +37,14 @@ const Navigation = () => {
 
   const { isLoggedIn, logout, user } = useAuthStore()
   const { clearCart } = useCartStore()
+  const { openCart } = useUiStore();
 
   const navigateHome = () => {
     navigate("/");
   };
 
   const navigateCheckout = () => {
-    navigate("/checkout");
+    openCart();
   };
 
   const navigateLogin = () => {

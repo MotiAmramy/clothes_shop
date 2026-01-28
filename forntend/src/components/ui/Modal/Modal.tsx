@@ -56,26 +56,26 @@ const CloseButton = styled.button`
 `;
 
 interface ModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    children: React.ReactNode;
-    title?: string;
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  title?: string;
 }
 
 const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
-    if (!isOpen) return null;
+  if (!isOpen) return null;
 
-    return (
-        <Overlay onClick={onClose}>
-            <ModalContainer onClick={(e) => e.stopPropagation()}>
-                <CloseButton onClick={onClose}>&times;</CloseButton>
-                {title && <h2 style={{ margin: 0, fontSize: "1.5rem", color: "#343a40" }}>{title}</h2>}
-                <div style={{ maxHeight: "70vh", overflowY: "auto" }}>
-                    {children}
-                </div>
-            </ModalContainer>
-        </Overlay>
-    );
+  return (
+    <Overlay onClick={onClose}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        <CloseButton onClick={onClose}>&times;</CloseButton>
+        {title && <h2 style={{ margin: 0, fontSize: "1.5rem", color: "#343a40" }}>{title}</h2>}
+        <div style={{ maxHeight: "70vh", overflowY: "auto" }}>
+          {children}
+        </div>
+      </ModalContainer>
+    </Overlay>
+  );
 };
 
 export default Modal;

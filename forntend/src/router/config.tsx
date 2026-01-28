@@ -1,4 +1,3 @@
-import Checkout from "../pages/Checkout"
 import Home from "../pages/Home"
 import Login from "../pages/Login"
 import Signup from "../pages/Signup"
@@ -21,10 +20,6 @@ export const config: RouterConfig = [
     {
         path: '/category/:category',
         component: <Home />
-    },
-    {
-        path: '/checkout',
-        component: <Checkout />
     },
     {
         path: '/login',

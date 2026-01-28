@@ -125,6 +125,7 @@ const ProductManagement = () => {
                 onChange={handleInputChange}
                 onSubmit={handleSubmit}
                 onClose={() => {
+                    resetForm()
                     setModalMode(null)
                     setEditingId(null);
                 }

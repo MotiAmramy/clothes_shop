@@ -5,6 +5,7 @@ import Button from "../../ui/Button/Button";
 import { ProductItemData } from "../../../hooks/useFetchProducts";
 import { Category } from "../../../api/categoryApi";
 import styled from "styled-components";
+import TextArea from "../../ui/TextArea/TextArea";
 
 const StyledSelect = styled.select`
     padding: 0.5rem;
@@ -82,7 +83,7 @@ const AdminProductModal = ({
                     required
                 />
 
-                <textarea
+                <TextArea
                     name="description"
                     placeholder="Description"
                     value={formData.description}

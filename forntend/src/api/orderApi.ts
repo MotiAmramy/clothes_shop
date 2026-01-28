@@ -13,7 +13,13 @@ export interface Order {
     createdAt: string;
 }
 
-export const createOrder = async (orderData: { items: OrderItem[]; totalAmount: number }) => {
+export interface ShippingAddress {
+    city: string;
+    street: string;
+    number: string;
+}
+
+export const createOrder = async (orderData: { items: OrderItem[]; totalAmount: number; shippingAddress: ShippingAddress }) => {
     return client.post<Order>("/orders", orderData);
 };
 
