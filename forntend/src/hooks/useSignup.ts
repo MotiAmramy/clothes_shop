@@ -8,6 +8,11 @@ export interface SignupData {
   password: string;
 }
 
+
+/**
+ * Custom hook for handling user registration.
+ * Sends registration data to the API and automatically logs the user in on success.
+ */
 const useSignup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,13 +29,13 @@ const useSignup = () => {
       const data = await fetchsignup({ name, email, password });
       // שמירת המשתמש בגלובלי
       setAuthUser({
-        id: data.user._id,
+        _id: data.user._id,
         name: data.user.name,
         email: data.user.email,
         role: data.user.role,
         token: data.token,
       });
-      
+
       setSuccess(true);
     } catch (err: any) {
       setError(err.message);

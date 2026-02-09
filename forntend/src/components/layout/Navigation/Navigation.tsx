@@ -1,10 +1,10 @@
 import { styled } from "styled-components";
-import Button from "../ui/Button/Button";
+import Button from "../../ui/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaCartShopping, FaUser } from "react-icons/fa6";
-import { useAuthStore } from "../../store/logginStore";
-import useCartStore from "../../store/cartStore";
-import { useUiStore } from "../../store/uiStore";
+import { FaCartShopping, FaBars } from "react-icons/fa6";
+import { useAuthStore } from "../../../store/logginStore";
+import { useUiStore } from "../../../store/uiStore";
+import { Welcome } from "../../home/Welcome/welcome";
 
 export const StyledNav = styled.nav`
   box-shadow: 0px 2px 3px #dedede;
@@ -31,13 +31,37 @@ const Logo = styled.h1`
   cursor: pointer;
 `;
 
+const MenuButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #5c5c5c;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #333;
+  }
+`;
+
+
+/**
+ * Navigation Component
+ * 
+ * Main application header.
+ * Handles navigation to different pages (Home, Login, Orders, Admin, Profile)
+ * and actions like Logout, opening the Cart, and opening the Sidebar.
+ */
 const Navigation = () => {
   const location = useLocation()
   const navigate = useNavigate();
 
-  const { isLoggedIn, logout, user } = useAuthStore()
-  const { clearCart } = useCartStore()
-  const { openCart } = useUiStore();
+  const { isLoggedIn, user } = useAuthStore()
+  const { openCart, openSidebar } = useUiStore();
 
   const navigateHome = () => {
     navigate("/");
@@ -51,34 +75,24 @@ const Navigation = () => {
     navigate("/login");
   };
 
-  const handleLogout = () => {
-    logout();
-    clearCart();
-    navigate("/");
-  };
-
-
-
 
   return (
     <StyledNav color="#d9c0c0ff">
       <NavGroup>
+        <MenuButton onClick={openSidebar} aria-label="Open menu">
+          <FaBars />
+        </MenuButton>
         <Logo onClick={navigateHome}>Moda</Logo>
       </NavGroup>
       {isLoggedIn && (
         <>
-          <Button onClick={handleLogout}>Logout</Button>
           <Button onClick={navigateCheckout}>
             <FaCartShopping />
           </Button>
-          <Button onClick={() => navigate('/orders')}>My Orders</Button>
           {user?.role === 'admin' && (
             <Button onClick={() => navigate('/admin')}>Admin</Button>
           )}
-          <Button onClick={navigateHome}>Home</Button>
-          <Button onClick={() => navigate('/profile')}>
-            <FaUser />
-          </Button>
+          <Welcome name={user!.name} />
         </>
       )}
       {location.pathname !== '/login' && !isLoggedIn && (
@@ -89,3 +103,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+

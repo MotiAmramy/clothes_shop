@@ -1,16 +1,24 @@
-import UserManagement from "../components/Admin/UserManagement";
-import ProductManagement from "../components/Admin/ProductManagement";
-import CategoryManagement from "../components/Admin/CategoryManagement";
+import UserManagement from "../components/admin/UserManagement/UserManagement";
+import ProductManagement from "../components/admin/ProductManagement/ProductManagement";
+import CategoryManagement from "../components/admin/CategoryManagement/CategoryManagement";
 import { useAuthStore } from "../store/logginStore";
 import { Navigate } from "react-router-dom";
 import { useAdminStore } from "../store/tabStore";
 import Button from "../components/ui/Button/Button";
-import { AdminTitles } from "../components/AdminTitle/AdminTitle";
+import { AdminTitles } from "../components/admin/AdminTitle/AdminTitle";
 
 
 
 
 
+
+/**
+ * AdminPage Component
+ * 
+ * Main dashboard for administrators.
+ * Manages tab navigation between Users, Products, and Categories management sections.
+ * Protected route: user must be an admin.
+ */
 const AdminPage = () => {
     const { user, isLoggedIn } = useAuthStore();
     const { activeTab, setActiveTab } = useAdminStore();

@@ -6,6 +6,12 @@ import Input from "../components/ui/Input/Input";
 import Button from "../components/ui/Button/Button";
 import { updateUser } from "../api/userApi";
 
+
+/**
+ * Profile Page
+ * 
+ * Allows the user to view and update their profile information (name, password).
+ */
 const ProfilePage = () => {
     const { user, isLoggedIn, login } = useAuthStore();
     const [name, setName] = useState(user?.name || "");
@@ -16,6 +22,10 @@ const ProfilePage = () => {
         return <Navigate to="/login" />;
     }
 
+    /**
+     * Submits updated profile information to the API.
+     * Updates the local auth store upon success.
+     */
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage("");

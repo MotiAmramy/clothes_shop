@@ -14,8 +14,19 @@ interface UiState {
     isCheckoutOpen: boolean;
     openCheckout: () => void;
     closeCheckout: () => void;
+
+    isSidebarOpen: boolean;
+    openSidebar: () => void;
+    closeSidebar: () => void;
 }
 
+
+/**
+ * UI Store
+ * 
+ * Manages global UI state such as modal visibility (Product, Cart, Checkout, Sidebar).
+ * Allows components to trigger UI changes without passing props deep down.
+ */
 export const useUiStore = create<UiState>((set) => ({
     selectedProduct: null,
     isModalOpen: false,
@@ -29,4 +40,8 @@ export const useUiStore = create<UiState>((set) => ({
     isCheckoutOpen: false,
     openCheckout: () => set({ isCheckoutOpen: true }),
     closeCheckout: () => set({ isCheckoutOpen: false }),
+
+    isSidebarOpen: false,
+    openSidebar: () => set({ isSidebarOpen: true }),
+    closeSidebar: () => set({ isSidebarOpen: false }),
 }));

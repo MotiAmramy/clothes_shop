@@ -1,14 +1,20 @@
 import { useNavigate } from "react-router-dom";
-import LoginForm from "../components/LogginForm/LogginForm";
 import { useEffect } from "react";
 import useLogin from "../hooks/useLogin";
+import LoginForm from "../components/auth/LoginForm/LogginForm";
 
 
 
+
+/**
+ * Login Page
+ * 
+ * Renders the LoginForm component and handles navigation upon successful login.
+ */
 const Login = () => {
   const { login, loading, error, success } = useLogin();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (success) {
       navigate("/");
@@ -19,7 +25,7 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <LoginForm onSubmit={login} loading={loading} error={error} SubmitRegister={handleSubmitRegister}/>
+      <LoginForm onSubmit={login} loading={loading} error={error} SubmitRegister={handleSubmitRegister} />
     </div>
   );
 };

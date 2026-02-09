@@ -13,27 +13,28 @@ const wave = keyframes`
 
 const WelcomeWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  margin: 24px 0;
+  justify-content: flex-end;
+  padding: 8px 16px;
 `;
 
 const WelcomeCard = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 
-  padding: 18px 32px;
-  background: linear-gradient(135deg, #f0f4ff, #d9e6ff);
-  border-radius: 50px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #ffeaea, #d9c0c0);
+  border-radius: 25px;
 
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: #333;
 
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 3px solid #ffffffff;
 `;
 
 const Emoji = styled.span`
-  font-size: 2.5rem;
+  font-size: 1.2rem;
   animation: ${wave} 2s infinite;
   display: inline-block;
 `;
@@ -43,30 +44,19 @@ const WelcomeLine = styled.div`
 
   h3 {
     margin: 0;
-    font-size: 1.3rem;
-    color: #2a2a2a;
-  }
-
-  &::after {
-    content: "";
-    display: block;
-    width: 60px;
-    height: 3px;
-    background: #a0c4ff;
-    margin: 12px auto 0;
-    border-radius: 2px;
+    font-size: 0.9rem;
+    color: #333;
+    font-family: "Open Sans", serif;
   }
 `;
 
 export const Welcome = ({ name }: { name: string }) => (
-    <WelcomeWrapper>
-        <WelcomeCard>
-            <WelcomeLine>
-                <h3>
-                    <strong>Hello {name}!</strong>
-                </h3>
-            </WelcomeLine>
-            <Emoji>👋</Emoji>
-        </WelcomeCard>
-    </WelcomeWrapper>
+  <WelcomeWrapper>
+    <WelcomeCard>
+      <Emoji>👋</Emoji>
+      <WelcomeLine>
+        <h3>Hello, <strong>{name}</strong></h3>
+      </WelcomeLine>
+    </WelcomeCard>
+  </WelcomeWrapper>
 );

@@ -1,10 +1,10 @@
 import { styled } from "styled-components";
-import { ProductItemData } from "../../hooks/useFetchProducts";
-import Button from "../ui/Button/Button";
-import useCartStore from "../../store/cartStore";
-import { useAuthStore } from "../../store/logginStore";
+import Button from "../../ui/Button/Button";
+import { ProductItemData } from "../../../hooks/useFetchProducts";
+import useCartStore from "../../../store/cartStore";
+import { useAuthStore } from "../../../store/logginStore";
+import { useUiStore } from "../../../store/uiStore";
 import { useNavigate } from "react-router-dom";
-import { useUiStore } from "../../store/uiStore";
 
 const ProductContainer = styled.div`
   cursor: pointer;
@@ -18,10 +18,23 @@ const ProductContainer = styled.div`
   max-width: 20rem;
   justify-content: space-between;
   align-items: center;
+  background-color: #dcdadacc
+`;
+const ImageContainer = styled.div`
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
 `;
 
 const ProductImage = styled.img`
-  width: 150px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 5px;
 `;
 
@@ -38,12 +51,19 @@ const ProductItem = ({ data }: ProductItemProps) => {
 
   return (
     <ProductContainer onClick={() => openModal(data)}>
-      <ProductImage src={image} />
-      <h2>
-        {title} {price}$
+      <div style={{ backgroundColor: '#fff', padding: '1rem', borderRadius: '5px' }}>
+        <ImageContainer>
+          <ProductImage src={image} />
+        </ImageContainer>
+      </div>
+      <h2 style={{ margin: '0' }}>
+        {title}
       </h2>
-      <p>{description}</p>
-      {isLoggedIn ? <Button onClick={(e) => {
+      <h2 style={{ margin: '0', color: '#6C5B7B' }}>
+        {price}$
+      </h2>
+      <p style={{ margin: '0' }}>{description}</p>
+      {isLoggedIn ? <Button style={{ backgroundColor: "#fbc0bbff" }} onClick={(e) => {
         addItem(data)
         e.stopPropagation();
       }}>

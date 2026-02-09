@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CartItem from "../components/CartItem/CartItem";
-import List from "../components/List/List";
+import { createOrder } from "../api/orderApi";
 import useCartStore from "../store/cartStore";
 import { useAuthStore } from "../store/logginStore";
-import { createOrder } from "../api/orderApi";
 import Button from "../components/ui/Button/Button";
+import List from "../components/ui/List/List";
+import CartItem from "../components/cart/CartItem/CartItem";
 import { ProductItemData } from "../hooks/useFetchProducts";
 
 interface OrderItem {
@@ -13,6 +13,13 @@ interface OrderItem {
     quantity: number;
 }
 
+
+/**
+ * Checkout Page
+ * 
+ * Displays the cart summary and allows the user to place an order.
+ * Consolidates cart items and sends the order creation request.
+ */
 const Checkout = () => {
     const { cart, clearCart } = useCartStore();
     const { isLoggedIn } = useAuthStore();
@@ -22,6 +29,10 @@ const Checkout = () => {
     // Calculate total
     const totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
 
+    /**
+     * Aggregates cart items and submits the order request.
+     * Redirects to orders page on success.
+     */
     const handlePlaceOrder = async () => {
         if (!isLoggedIn) {
             alert("Please login to place an order");

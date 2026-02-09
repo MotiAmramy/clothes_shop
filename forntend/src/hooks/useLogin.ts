@@ -17,6 +17,12 @@ interface UseLoginReturn {
 
 
 
+
+/**
+ * Custom hook for handling user login.
+ * interacting with the auth API and updating the global store.
+ * Also triggers cart loading upon successful login.
+ */
 const useLogin = (): UseLoginReturn => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

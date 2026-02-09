@@ -1,22 +1,27 @@
 import { styled } from "styled-components";
 import { FaTimes } from "react-icons/fa";
-import useCartStore from "../../store/cartStore";
-import { useUiStore } from "../../store/uiStore";
+import useCartStore from "../../../store/cartStore";
+import { useUiStore } from "../../../store/uiStore";
 import CartItem from "../CartItem/CartItem";
-import Button from "../ui/Button/Button";
-import Modal from "../ui/Modal/Modal";
-import { useAuthStore } from "../../store/logginStore";
+import Button from "../../ui/Button/Button";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../../store/logginStore";
 
+
+/**
+ * Styled container for the modal content.
+ */
 const ModalContent = styled.div`
     width: 500px;
     max-width: 90vw;
-    background: white;
-    border-radius: 8px;
+    background-color: #ffeaea;
+    border-radius: 12px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     height: 80vh;
+    border-top: 4px solid #6C5B7B;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 `;
 
 const Header = styled.div`
@@ -38,8 +43,12 @@ const CloseButton = styled.button`
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: #666;
-    &:hover { color: #333; }
+    color: #6C5B7B;
+    transition: all 0.2s;
+    &:hover { 
+        color: #333; 
+        transform: scale(1.1);
+    }
 `;
 
 const ItemsList = styled.div`
@@ -78,6 +87,13 @@ const TotalRow = styled.div`
     font-weight: bold;
 `;
 
+
+/**
+ * CartModal Component
+ * 
+ * Displays the user's shopping cart in a modal.
+ * Allows viewing items, total price, and navigating to checkout.
+ */
 const CartModal = () => {
     const { cart } = useCartStore();
     const { isCartOpen, closeCart, openCheckout } = useUiStore();
@@ -86,6 +102,11 @@ const CartModal = () => {
 
     const totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
 
+
+    /**
+     * Handles the "Place Order" button click.
+     * Redirects to login if not authenticated, otherwise opens the checkout modal.
+     */
     const handlePlaceOrder = () => {
         if (!isLoggedIn) {
             closeCart();
@@ -114,6 +135,7 @@ const CartModal = () => {
             width: '100%',
             height: '100%',
             backgroundColor: 'rgba(0,0,0,0.5)',
+            backdropFilter: 'blur(4px)',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -142,7 +164,7 @@ const CartModal = () => {
                             <span>${totalAmount.toFixed(2)}</span>
                         </TotalRow>
                         <Button
-                            style={{ width: '100%', padding: '15px', fontSize: '1.1rem' }}
+                            style={{ width: '100%', padding: '15px', fontSize: '1.1rem', backgroundColor: "#fbc0bbff" }}
                             onClick={handlePlaceOrder}
                         >
                             Place Order

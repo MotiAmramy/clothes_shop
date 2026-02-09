@@ -16,6 +16,13 @@ interface AuthState {
     logout: () => void;
 }
 
+
+/**
+ * Auth Store
+ * 
+ * Manages user authentication state (user details, token, login status).
+ * Persists data to local storage to maintain session.
+ */
 export const useAuthStore = create<AuthState>()(
     persist(
         (set) => ({

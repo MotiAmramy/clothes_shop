@@ -26,7 +26,7 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  background-color: white;
+  background-color: #ffeaea;
   padding: 2rem;
   border-radius: 12px;
   max-width: 500px;
@@ -37,6 +37,7 @@ const ModalContainer = styled.div`
   gap: 1.5rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   animation: ${slideIn} 0.3s ease-out;
+  border-top: 4px solid #6C5B7B;
 `;
 
 const CloseButton = styled.button`
@@ -47,11 +48,12 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #868e96;
-  transition: color 0.2s;
+  color: #6C5B7B;
+  transition: all 0.2s;
 
   &:hover {
-    color: #212529;
+    color: #333;
+    transform: scale(1.1);
   }
 `;
 

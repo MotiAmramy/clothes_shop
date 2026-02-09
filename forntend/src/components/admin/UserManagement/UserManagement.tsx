@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { User, deleteUser, fetchUsers, updateUser } from "../../api/adminApi";
-import { useAuthStore } from "../../store/logginStore";
-import Table from "../ui/Table/Table";
-import Button from "../ui/Button/Button";
+import Table from "../../ui/Table/Table";
+import Button from "../../ui/Button/Button";
 import { AdminTitles } from "../AdminTitle/AdminTitle";
+import { User, deleteUser, fetchUsers, updateUser } from "../../../api/adminApi";
+import { useAuthStore } from "../../../store/logginStore";
 
 const UserManagement = () => {
     const [users, setUsers] = useState<User[]>([]);

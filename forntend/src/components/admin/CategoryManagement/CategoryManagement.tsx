@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { addCategory, Category, deleteCategory, fetchCategories } from "../../api/categoryApi";
-import Button from "../ui/Button/Button";
-import Table from "../ui/Table/Table";
-import Input from "../ui/Input/Input";
-import Form from "../ui/Form/Form";
+import Button from "../../ui/Button/Button";
+import Table from "../../ui/Table/Table";
+import Input from "../../ui/Input/Input";
+import Form from "../../ui/Form/Form";
 import { AdminTitles } from "../AdminTitle/AdminTitle";
+import { Category, addCategory, deleteCategory, fetchCategories } from "../../../api/categoryApi";
 
 const CategoryManagement = () => {
     const [categories, setCategories] = useState<Category[]>([]);

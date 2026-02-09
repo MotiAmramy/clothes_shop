@@ -13,6 +13,12 @@ interface CartStore {
 }
 
 // Helper to sync after state updates if logged in
+
+// Helper to sync after state updates if logged in
+/**
+ * Syncs the current cart with the backend database if the user is logged in.
+ * @param cart Current cart items
+ */
 const syncIfLoggedIn = (cart: ReadonlyArray<ProductItemData>) => {
     const { isLoggedIn } = useAuthStore.getState();
     if (isLoggedIn) {
@@ -20,6 +26,14 @@ const syncIfLoggedIn = (cart: ReadonlyArray<ProductItemData>) => {
     }
 };
 
+
+/**
+ * Cart Store
+ * 
+ * Manages the shopping cart state.
+ * Uses Zustand with persistence (local storage) to save cart items.
+ * Syncs with the backend if the user is logged in.
+ */
 const useCartStore = create<CartStore>()(
     persist(
         (set) => ({

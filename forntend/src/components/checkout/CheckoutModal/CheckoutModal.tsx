@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { styled } from "styled-components";
-import { FaTimes, FaCreditCard, FaMapMarkerAlt, FaCheckCircle } from "react-icons/fa";
-import { useUiStore } from "../../store/uiStore";
-import useCartStore from "../../store/cartStore";
-import { useAuthStore } from "../../store/logginStore";
-import { createOrder, OrderItem } from "../../api/orderApi";
-import Button from "../ui/Button/Button";
-import Input from "../ui/Input/Input";
-import { fetchCities } from "../../services/cityService";
+import { FaCreditCard, FaMapMarkerAlt, FaCheckCircle } from "react-icons/fa";
+import { useUiStore } from "../../../store/uiStore";
+import useCartStore from "../../../store/cartStore";
+import { createOrder, OrderItem } from "../../../api/orderApi";
+import Button from "../../ui/Button/Button";
+import Input from "../../ui/Input/Input";
+import { fetchCities } from "../../../services/cityService";
 import { useNavigate } from "react-router-dom";
 
 const ModalOverlay = styled.div`
@@ -26,14 +25,15 @@ const ModalOverlay = styled.div`
 const ModalContent = styled.div`
     width: 600px;
     max-width: 95vw;
-    background: white;
+    background: #ffeaea;
     border-radius: 12px;
     padding: 30px;
     display: flex;
     flex-direction: column;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    border-top: 4px solid #6C5B7B;
 `;
 
 const MultiStepHeader = styled.div`
@@ -59,7 +59,7 @@ const StepIndicator = styled.div<{ active: boolean; completed: boolean }>`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: ${props => props.active || props.completed ? '#333' : '#eee'};
+    background: ${props => props.active || props.completed ? '#6C5B7B' : '#eee'};
     color: ${props => props.active || props.completed ? 'white' : '#666'};
     display: flex;
     justify-content: center;
@@ -252,7 +252,7 @@ const CheckoutModal = () => {
                                 style={{ width: '100px' }}
                             />
                         </FormRow>
-                        <Button onClick={handleAddressSubmit} style={{ width: '100%' }}>
+                        <Button onClick={handleAddressSubmit} style={{ width: '100%', backgroundColor: "#fbc0bbff" }}>
                             Proceed to Payment
                         </Button>
                     </>
@@ -300,7 +300,7 @@ const CheckoutModal = () => {
                             <Button
                                 onClick={handlePaymentSubmit}
                                 disabled={loading}
-                                style={{ flex: 1 }}
+                                style={{ flex: 1, backgroundColor: "#fbc0bbff" }}
                             >
                                 {loading ? 'Processing...' : 'Pay Now'}
                             </Button>

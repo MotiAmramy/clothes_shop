@@ -16,6 +16,11 @@ export interface FetchResponse<T> {
     readonly loading: boolean
 }
 
+
+/**
+ * Custom hook to fetch the list of products from the API.
+ * Returns the data, loading state, and any error encountered.
+ */
 const useFetchProducts = () => {
     const [response, setResponse] = useState<FetchResponse<ReadonlyArray<ProductItemData>>>({
         data: null,

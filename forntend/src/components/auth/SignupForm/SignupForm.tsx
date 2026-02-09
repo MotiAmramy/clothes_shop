@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Form from "../ui/Form/Form";
-import Input from "../ui/Input/Input";
-import Button from "../ui/Button/Button";
+import Form from "../../ui/Form/Form";
+import Input from "../../ui/Input/Input";
+import Button from "../../ui/Button/Button";
 
 interface SignupFormProps {
   onSubmit: (email: string, password: string, name: string) => void;

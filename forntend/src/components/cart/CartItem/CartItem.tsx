@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { ProductItemData } from "../../hooks/useFetchProducts";
+
 import { MdDelete } from "react-icons/md";
-import Button from "../ui/Button/Button";
-import useCartStore from "../../store/cartStore";
+import Button from "../../ui/Button/Button";
+import { ProductItemData } from "../../../hooks/useFetchProducts";
+import useCartStore from "../../../store/cartStore";
 
 const StyledCartItem = styled.div`
   display: flex;
@@ -12,11 +13,13 @@ const StyledCartItem = styled.div`
   padding: 1rem;
   max-width: 16rem;
   box-shadow: 0 2px 3px #d3d3d3;
+  background-color: #dcdadacc;
 `;
 
 const CartItemContent = styled.div`
   display: flex;
   gap: 1rem;
+  background-color: #dcdadacc;
 `;
 
 const DeleteArea = styled.div`

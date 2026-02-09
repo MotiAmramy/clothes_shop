@@ -4,6 +4,13 @@ import Table from "../components/ui/Table/Table";
 import { useAuthStore } from "../store/logginStore";
 import { Navigate } from "react-router-dom";
 
+
+/**
+ * Orders Page
+ * 
+ * Displays a list of past orders for the logged-in user.
+ * Fetches order history from the API.
+ */
 const OrdersPage = () => {
     const { isLoggedIn } = useAuthStore();
     const [orders, setOrders] = useState<Order[]>([]);
@@ -16,6 +23,9 @@ const OrdersPage = () => {
         }
     }, [isLoggedIn]);
 
+    /**
+     * Fetches orders from the backend and updates state.
+     */
     const loadOrders = async () => {
         try {
             const data = await fetchOrders();

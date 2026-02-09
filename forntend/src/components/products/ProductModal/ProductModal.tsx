@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { useUiStore } from "../../store/uiStore";
-import Button from "../ui/Button/Button";
-import useCartStore from "../../store/cartStore";
-import { useAuthStore } from "../../store/logginStore";
+import { useUiStore } from "../../../store/uiStore";
+import Button from "../../ui/Button/Button";
+import useCartStore from "../../../store/cartStore";
+import { useAuthStore } from "../../../store/logginStore";
 import { useNavigate } from "react-router-dom";
 
-import Modal from "../ui/Modal/Modal";
+import Modal from "../../ui/Modal/Modal";
 
 const ProductImage = styled.img`
   max-width: 100%;

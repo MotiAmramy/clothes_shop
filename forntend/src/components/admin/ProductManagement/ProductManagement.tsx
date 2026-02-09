@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import useFetchProducts, { ProductItemData } from "../../hooks/useFetchProducts";
-import { addProduct, deleteProduct, updateProduct } from "../../api/productApi";
-import { fetchCategories, Category } from "../../api/categoryApi";
-import Table from "../ui/Table/Table";
-import Button from "../ui/Button/Button";
-import AdminProductModal from "./productsManagments/ProductModal";
+import Button from "../../ui/Button/Button";
+import Table from "../../ui/Table/Table";
+import useFetchProducts, { ProductItemData } from "../../../hooks/useFetchProducts";
+import { addProduct, deleteProduct, updateProduct } from "../../../api/productApi";
+import { Category, fetchCategories } from "../../../api/categoryApi";
 import { AdminTitles } from "../AdminTitle/AdminTitle";
+import AdminProductModal from "../ProductModal/ProductModal";
 
 
 const ProductManagement = () => {

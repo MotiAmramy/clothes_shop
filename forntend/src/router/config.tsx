@@ -12,6 +12,13 @@ interface RouteItem {
 
 type RouterConfig = ReadonlyArray<RouteItem>
 
+
+/**
+ * Router Configuration
+ * 
+ * Defines the mapping between URL paths and React components.
+ * Used by AppRouter to dynamically generate routes.
+ */
 export const config: RouterConfig = [
     {
         path: '/',

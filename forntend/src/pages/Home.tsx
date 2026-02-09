@@ -1,15 +1,20 @@
-import List from "../components/List/List"
-import ProductItem from "../components/ProductItem/ProductItem"
-import ProductModal from "../components/ProductModal/ProductModal"
-import { Welcome } from "../components/Welcome/welcome"
+import List from "../components/ui/List/List"
+import ProductItem from "../components/products/ProductItem/ProductItem"
+import ProductModal from "../components/products/ProductModal/ProductModal"
 import useFetchProducts from "../hooks/useFetchProducts"
-import { useAuthStore } from "../store/logginStore"
 import { useParams } from "react-router-dom"
 
 
+
+/**
+ * Home Page
+ * 
+ * Displays the product catalog.
+ * Supports filtering by category via URL parameters.
+ * Shows welcome message for logged-in users.
+ */
 const Home = () => {
     const { data, loading, error } = useFetchProducts()
-    const { user } = useAuthStore()
     const { category } = useParams()
 
     if (error) {
@@ -22,7 +27,6 @@ const Home = () => {
 
     return loading ? <>Loading...</> : (
         <>
-            {user && <Welcome name={user.name} />}
             {filteredData && <List data={filteredData} Item={ProductItem} />}
             <ProductModal />
         </>

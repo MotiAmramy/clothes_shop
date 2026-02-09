@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Form from "../ui/Form/Form"; // הרכיב Form שעשינו קודם
-import Input from "../ui/Input/Input";
-import Button from "../ui/Button/Button";
-import { LoginData } from "../../hooks/useLogin";
+import Form from "../../ui/Form/Form"; // הרכיב Form שעשינו קודם
+import Input from "../../ui/Input/Input";
+import Button from "../../ui/Button/Button";
+import { LoginData } from "../../../hooks/useLogin";
 
 interface LoginFormProps {
-  onSubmit: ({ email, password } : LoginData) => void;
+  onSubmit: ({ email, password }: LoginData) => void;
   loading: boolean;
   error: string | null;
   SubmitRegister: () => void
@@ -17,7 +17,7 @@ const LoginForm = ({ onSubmit, loading = false, error, SubmitRegister }: LoginFo
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({email, password});
+    onSubmit({ email, password });
   };
 
   return (
@@ -51,8 +51,8 @@ const LoginForm = ({ onSubmit, loading = false, error, SubmitRegister }: LoginFo
       <Button type="submit" disabled={loading}>
         {loading ? "Logging in..." : "Login"}
       </Button>
-      <Button 
-        onClick={SubmitRegister} 
+      <Button
+        onClick={SubmitRegister}
       >
         Don't have an account? Register
       </Button>
