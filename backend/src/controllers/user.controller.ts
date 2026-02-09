@@ -10,7 +10,7 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const getUser = async (req: Request, res: Response, next: NextFunction) => {
+export const getUser = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
   try {
     const user = await userService.getUserById(req.params.id);
     res.json(user);
@@ -19,7 +19,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
   }
 };
 
-export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+export const updateUser = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
   try {
     const user = await userService.updateUserById(req.params.id, req.body);
     res.json(user);
@@ -28,7 +28,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteUser = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
   try {
     const user = await userService.deleteUser(req.params.id);
     res.json(user);

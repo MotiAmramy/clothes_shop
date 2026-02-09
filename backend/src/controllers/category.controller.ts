@@ -34,7 +34,7 @@ export const createCategory = async (req: Request, res: Response) => {
 };
 
 // Delete category (Admin)
-export const deleteCategory = async (req: Request, res: Response) => {
+export const deleteCategory = async (req: Request<{ id: string }>, res: Response) => {
     try {
         const { id } = req.params;
         const deletedCategory = await Category.findByIdAndDelete(id);
