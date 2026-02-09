@@ -10,7 +10,7 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
+export const getProduct = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
   try {
     const product = await productService.getProductById(req.params.id);
     res.json(product);
@@ -28,7 +28,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
+export const updateProduct = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
   try {
     const product = await productService.updateProduct(req.params.id, req.body);
     res.json(product);
@@ -37,7 +37,7 @@ export const updateProduct = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteProduct = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
   try {
     await productService.deleteProduct(req.params.id);
     res.json({ message: "Product deleted" });
