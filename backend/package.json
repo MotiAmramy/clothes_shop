@@ -19,7 +19,8 @@
   "requires": true,
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "start": "node build/server.js"
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "packages": {
     "": {
