@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import Button from "../../ui/Button/Button";
 import Table from "../../ui/Table/Table";
 import Input from "../../ui/Input/Input";
 import Form from "../../ui/Form/Form";
 import { AdminTitles } from "../AdminTitle/AdminTitle";
 import { Category, addCategory, deleteCategory, fetchCategories } from "../../../api/categoryApi";
+import ConfirmationModal from "../../ui/ConfirmationModal/ConfirmationModal";
+
 
 const CategoryManagement = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [newCategory, setNewCategory] = useState("");
     const [loading, setLoading] = useState(true);
+
+    const [deleteConfirmation, setDeleteConfirmation] = useState<{ isOpen: boolean; id: string | null }>({ isOpen: false, id: null });
 
     useEffect(() => {
         loadCategories();
@@ -30,20 +35,28 @@ const CategoryManagement = () => {
         e.preventDefault();
         try {
             const added = await addCategory(newCategory);
+            toast.success("Category added");
             setCategories([...categories, added]);
             setNewCategory("");
         } catch (error) {
-            alert("Failed to add category");
+            toast.error("Failed to add category");
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!window.confirm("Delete category?")) return;
+    const handleDelete = (id: string) => {
+        setDeleteConfirmation({ isOpen: true, id });
+    };
+
+    const confirmDelete = async () => {
+        if (!deleteConfirmation.id) return;
         try {
-            await deleteCategory(id);
-            setCategories(categories.filter(c => c._id !== id));
+            await deleteCategory(deleteConfirmation.id);
+            setCategories(categories.filter(c => c._id !== deleteConfirmation.id));
+            toast.success("Category deleted");
         } catch (error) {
-            alert("Failed to delete category");
+            toast.error("Failed to delete category");
+        } finally {
+            setDeleteConfirmation({ isOpen: false, id: null });
         }
     };
 
@@ -80,7 +93,14 @@ const CategoryManagement = () => {
                     </Table>
                 )}
             </div>
-        </div>
+            <ConfirmationModal
+                isOpen={deleteConfirmation.isOpen}
+                title="Delete Category"
+                message="Are you sure you want to delete this category?"
+                onConfirm={confirmDelete}
+                onCancel={() => setDeleteConfirmation({ isOpen: false, id: null })}
+            />
+        </div >
     );
 };
 

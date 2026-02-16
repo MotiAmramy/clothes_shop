@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { createOrder } from "../api/orderApi";
 import useCartStore from "../store/cartStore";
@@ -35,7 +36,7 @@ const Checkout = () => {
      */
     const handlePlaceOrder = async () => {
         if (!isLoggedIn) {
-            alert("Please login to place an order");
+            toast.error("Please login to place an order");
             navigate("/login");
             return;
         }
@@ -62,14 +63,15 @@ const Checkout = () => {
 
             await createOrder({
                 items: orderItems,
-                totalAmount
+                totalAmount,
+                shippingAddress: { city: "N/A", street: "N/A", number: "0" }
             });
 
-            alert("Order placed successfully!");
+            toast.success("Order placed successfully!");
             clearCart();
             navigate("/orders");
         } catch (err: any) {
-            alert(err.message || "Failed to place order");
+            toast.error(err.message || "Failed to place order");
         } finally {
             setLoading(false);
         }

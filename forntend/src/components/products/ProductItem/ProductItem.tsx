@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { toast } from "react-toastify";
 import Button from "../../ui/Button/Button";
 import { ProductItemData } from "../../../hooks/useFetchProducts";
 import useCartStore from "../../../store/cartStore";
@@ -65,6 +66,7 @@ const ProductItem = ({ data }: ProductItemProps) => {
       <p style={{ margin: '0' }}>{description}</p>
       {isLoggedIn ? <Button style={{ backgroundColor: "#fbc0bbff" }} onClick={(e) => {
         addItem(data)
+        toast.success("Added to cart!")
         e.stopPropagation();
       }}>
         Add to cart

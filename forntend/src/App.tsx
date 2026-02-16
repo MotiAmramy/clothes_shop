@@ -4,6 +4,8 @@ import Sidebar from "./components/layout/Sidebar/Sidebar";
 import AppRouter from "./router/AppRouter";
 import CartModal from "./components/cart/CartModal/CartModal";
 import CheckoutModal from "./components/checkout/CheckoutModal/CheckoutModal";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 /**
@@ -21,6 +23,18 @@ const App = () => (
                   <CartModal />
                   <CheckoutModal />
                   <Sidebar />
+                  <ToastContainer
+                        position="top-right"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                  />
             </>
       } />
 )

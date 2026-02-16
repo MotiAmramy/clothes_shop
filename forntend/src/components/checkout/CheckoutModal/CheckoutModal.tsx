@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { styled } from "styled-components";
 import { FaCreditCard, FaMapMarkerAlt, FaCheckCircle } from "react-icons/fa";
 import { useUiStore } from "../../../store/uiStore";
@@ -92,16 +93,6 @@ const FormRow = styled.div`
     margin-bottom: 15px;
 `;
 
-const Select = styled.select`
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-bottom: 15px;
-    outline: none;
-    &:focus { border-color: #333; }
-`;
 
 const PaymentMock = styled.div`
     background: linear-gradient(135deg, #333 0%, #000 100%);
@@ -139,6 +130,7 @@ const CheckoutModal = () => {
     // Form States
     const [address, setAddress] = useState({ city: '', street: '', number: '' });
     const [payment, setPayment] = useState({ cardNumber: '', expiry: '', cvv: '' });
+    const [isCityListOpen, setIsCityListOpen] = useState(false);
 
     useEffect(() => {
         if (isCheckoutOpen) {
@@ -153,7 +145,7 @@ const CheckoutModal = () => {
 
     const handleAddressSubmit = () => {
         if (!address.city || !address.street || !address.number) {
-            alert("Please fill in all address fields");
+            toast.error("Please fill in all address fields");
             return;
         }
         setStep('payment');
@@ -161,7 +153,7 @@ const CheckoutModal = () => {
 
     const handlePaymentSubmit = async () => {
         if (!payment.cardNumber || !payment.expiry || !payment.cvv) {
-            alert("Please fill in all payment fields");
+            toast.error("Please fill in all payment fields");
             return;
         }
 
@@ -192,7 +184,7 @@ const CheckoutModal = () => {
             }, 500);
         } catch (error) {
             console.error("Order failed", error);
-            alert("Failed to place order. Please try again.");
+            toast.error("Failed to place order. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -229,16 +221,44 @@ const CheckoutModal = () => {
                 {step === 'address' && (
                     <>
                         <FormTitle>Shipping Address</FormTitle>
-                        <Select
-                            value={address.city}
-                            onChange={e => setAddress({ ...address, city: e.target.value })}
-                            disabled={loading}
-                        >
-                            <option value="">Select City</option>
-                            {cities.map(city => (
-                                <option key={city} value={city}>{city}</option>
-                            ))}
-                        </Select>
+                        <div style={{ position: 'relative', marginBottom: '15px' }}>
+                            <Input
+                                placeholder="Select City"
+                                value={address.city}
+                                onChange={e => setAddress({ ...address, city: e.target.value })}
+                                onFocus={() => setIsCityListOpen(true)}
+                                onBlur={() => setTimeout(() => setIsCityListOpen(false), 200)} // Delay to allow click
+                            />
+                            {isCityListOpen && (
+                                <ul style={{
+                                    position: 'absolute',
+                                    top: '100%',
+                                    left: 0,
+                                    right: 0,
+                                    maxHeight: '200px',
+                                    overflowY: 'auto',
+                                    background: 'white',
+                                    border: '1px solid #ddd',
+                                    zIndex: 10,
+                                    listStyle: 'none',
+                                    padding: 0,
+                                    margin: 0,
+                                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                                }}>
+                                    {cities
+                                        .filter(c => c.includes(address.city))
+                                        .map(city => (
+                                            <li
+                                                key={city}
+                                                style={{ padding: '10px', cursor: 'pointer', borderBottom: '1px solid #eee' }}
+                                                onClick={() => setAddress({ ...address, city: city })}
+                                            >
+                                                {city}
+                                            </li>
+                                        ))}
+                                </ul>
+                            )}
+                        </div>
                         <FormRow>
                             <Input
                                 placeholder="Street"

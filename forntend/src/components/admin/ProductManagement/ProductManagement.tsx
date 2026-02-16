@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import Button from "../../ui/Button/Button";
 import Table from "../../ui/Table/Table";
 import useFetchProducts, { ProductItemData } from "../../../hooks/useFetchProducts";
@@ -6,6 +7,7 @@ import { addProduct, deleteProduct, updateProduct } from "../../../api/productAp
 import { Category, fetchCategories } from "../../../api/categoryApi";
 import { AdminTitles } from "../AdminTitle/AdminTitle";
 import AdminProductModal from "../ProductModal/ProductModal";
+import ConfirmationModal from "../../ui/ConfirmationModal/ConfirmationModal";
 
 
 const ProductManagement = () => {
@@ -64,20 +66,28 @@ const ProductManagement = () => {
 
             setProducts(prev => [...prev, response]);
             resetForm();
+            toast.success("Product added successfully");
         } catch (err: any) {
-            alert(err.message || "Failed to add product");
+            toast.error(err.message || "Failed to add product");
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!window.confirm("Are you sure you want to delete this product?")) return;
+    const [deleteConfirmation, setDeleteConfirmation] = useState<{ isOpen: boolean; id: string | null }>({ isOpen: false, id: null });
 
+    const handleDelete = (id: string) => {
+        setDeleteConfirmation({ isOpen: true, id });
+    };
+
+    const confirmDelete = async () => {
+        if (!deleteConfirmation.id) return;
         try {
-            await deleteProduct(id);
-            setProducts(prev => prev.filter(p => p._id !== id));
-            alert("Product deleted");
+            await deleteProduct(deleteConfirmation.id);
+            setProducts(prev => prev.filter(p => p._id !== deleteConfirmation.id));
+            toast.success("Product deleted");
         } catch (err: any) {
-            alert(err.message || "Failed to delete");
+            toast.error(err.message || "Failed to delete");
+        } finally {
+            setDeleteConfirmation({ isOpen: false, id: null });
         }
     };
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -93,8 +103,9 @@ const ProductManagement = () => {
             const response = await updateProduct(editingId!, formData)
             setProducts(prev => prev.map(p => p._id === editingId ? response : p))
             resetForm();
+            toast.success("Product updated successfully");
         } catch (err: any) {
-            alert(err.message || "failed to update")
+            toast.error(err.message || "failed to update")
         }
     }
 
@@ -180,7 +191,14 @@ const ProductManagement = () => {
                     </Table>
                 )}
             </div>
-        </div>
+            <ConfirmationModal
+                isOpen={deleteConfirmation.isOpen}
+                title="Delete Product"
+                message="Are you sure you want to delete this product?"
+                onConfirm={confirmDelete}
+                onCancel={() => setDeleteConfirmation({ isOpen: false, id: null })}
+            />
+        </div >
     );
 };
 

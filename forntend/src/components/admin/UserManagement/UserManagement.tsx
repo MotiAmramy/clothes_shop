@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import Table from "../../ui/Table/Table";
 import Button from "../../ui/Button/Button";
 import { AdminTitles } from "../AdminTitle/AdminTitle";
 import { User, deleteUser, fetchUsers, updateUser } from "../../../api/adminApi";
 import { useAuthStore } from "../../../store/logginStore";
+import ConfirmationModal from "../../ui/ConfirmationModal/ConfirmationModal";
 
 const UserManagement = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { user: currentUser } = useAuthStore();
+
+    const [deleteConfirmation, setDeleteConfirmation] = useState<{ isOpen: boolean; id: string | null }>({ isOpen: false, id: null });
 
     useEffect(() => {
         loadUsers();
@@ -28,7 +32,7 @@ const UserManagement = () => {
 
     const handleRoleChange = async (userId: string, newRole: "user" | "admin") => {
         if (userId === currentUser?._id) {
-            alert("You cannot change your own role");
+            toast.warning("You cannot change your own role");
             return;
         }
 
@@ -36,20 +40,28 @@ const UserManagement = () => {
             await updateUser(userId, { role: newRole });
             setUsers(users.map((u) => (u._id === userId ? { ...u, role: newRole } : u)));
         } catch (err: any) {
-            alert(err.message || "Failed to update role");
+            toast.error(err.message || "Failed to update role");
         }
     };
 
-    const handleDelete = async (userId: string) => {
+    const handleDelete = (userId: string) => {
         if (userId === currentUser?._id) {
-            alert("You cannot delete yourself");
+            toast.warning("You cannot delete yourself");
             return;
         }
+        setDeleteConfirmation({ isOpen: true, id: userId });
+    };
+
+    const confirmDelete = async () => {
+        if (!deleteConfirmation.id) return;
         try {
-            await deleteUser(userId);
-            setUsers(users.filter((u) => u._id !== userId));
+            await deleteUser(deleteConfirmation.id);
+            setUsers(users.filter((u) => u._id !== deleteConfirmation.id));
+            toast.success("User deleted");
         } catch (err: any) {
-            alert(err.message || "Failed to delete user");
+            toast.error(err.message || "Failed to delete user");
+        } finally {
+            setDeleteConfirmation({ isOpen: false, id: null });
         }
     };
 
@@ -102,7 +114,14 @@ const UserManagement = () => {
                     ))}
                 </Table>
             </div>
-        </div>
+            <ConfirmationModal
+                isOpen={deleteConfirmation.isOpen}
+                title="Delete User"
+                message="Are you sure you want to delete this user?"
+                onConfirm={confirmDelete}
+                onCancel={() => setDeleteConfirmation({ isOpen: false, id: null })}
+            />
+        </div >
     );
 };
 
