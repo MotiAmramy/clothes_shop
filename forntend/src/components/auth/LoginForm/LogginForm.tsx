@@ -14,6 +14,7 @@ interface LoginFormProps {
 const LoginForm = ({ onSubmit, loading = false, error, SubmitRegister }: LoginFormProps) => {
   const [email, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,13 +38,32 @@ const LoginForm = ({ onSubmit, loading = false, error, SubmitRegister }: LoginFo
 
       <div className="form-group">
         <label>Password</label>
-        <Input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div style={{ position: "relative" }}>
+          <Input
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "1rem",
+              padding: 0
+            }}
+          >
+            {showPassword ? "🐵" : "🙈"}
+          </button>
+        </div>
       </div>
 
       {error && <p className="error">{error}</p>}

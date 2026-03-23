@@ -13,9 +13,18 @@ const SignupForm = ({ onSubmit, loading = false, error }: SignupFormProps) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formError, setFormError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError("");
+    if (password !== confirmPassword) {
+      setFormError("Passwords do not match");
+      return;
+    }
     onSubmit(email, password, name);
   };
 
@@ -47,16 +56,45 @@ const SignupForm = ({ onSubmit, loading = false, error }: SignupFormProps) => {
 
       <div className="form-group">
         <label>Password</label>
-        <Input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div style={{ position: "relative" }}>
+          <Input
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: "1rem", padding: 0 }}
+          >
+            {showPassword ? "🐵" : "🙈"}
+          </button>
+        </div>
       </div>
 
-      {error && <p className="error">{error}</p>}
+      <div className="form-group">
+        <label>Confirm Password</label>
+        <div style={{ position: "relative" }}>
+          <Input
+            type={showConfirmPassword ? "text" : "password"}
+            placeholder="Confirm your password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: "1rem", padding: 0 }}
+          >
+            {showConfirmPassword ? "🐵" : "🙈"}
+          </button>
+        </div>
+      </div>
+
+      {(formError || error) && <p className="error">{formError || error}</p>}
 
       <Button type="submit" disabled={loading}>
         {loading ? "Creating account..." : "Sign Up"}
