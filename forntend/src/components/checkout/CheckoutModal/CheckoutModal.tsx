@@ -128,7 +128,7 @@ const CheckoutModal = () => {
     const [loading, setLoading] = useState(false);
 
     // Form States
-    const [address, setAddress] = useState({ city: '', street: '', number: '' });
+    const [address, setAddress] = useState({ city: '', street: '', number: '', entrance: '' });
     const [payment, setPayment] = useState({ cardNumber: '', expiry: '', cvv: '' });
     const [isCityListOpen, setIsCityListOpen] = useState(false);
 
@@ -157,6 +157,30 @@ const CheckoutModal = () => {
             return;
         }
 
+        // Credit Card Validation
+        const cleanCard = payment.cardNumber.replace(/\D/g, '');
+        const cardRegexes = [
+            /^4\d{12}(?:\d{3})?$/, // Visa
+            /^(?:5[1-5]\d{2}|222[1-9]|22[3-9]\d|2[3-6]\d{2}|27[01]\d|2720)\d{12}$/, // MasterCard
+            /^3[47]\d{13}$/, // Amex
+            /^\d{8,9}$/ // Israeli Local (Isracard)
+        ];
+        
+        if (!cardRegexes.some(regex => regex.test(cleanCard))) {
+            toast.error("Invalid credit card number (Check length and prefix)");
+            return;
+        }
+
+        if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(payment.expiry)) {
+            toast.error("Please select a valid expiry date.");
+            return;
+        }
+
+        if (!/^\d{3,4}$/.test(payment.cvv)) {
+            toast.error("CVV must be 3 or 4 digits");
+            return;
+        }
+
         setLoading(true);
         try {
             // Transform cart to order items
@@ -172,10 +196,16 @@ const CheckoutModal = () => {
             const orderItems = Array.from(itemMap.values());
             const totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
 
+            const finalAddress = {
+                city: address.city,
+                street: address.street,
+                number: address.entrance ? `${address.number} / ${address.entrance}` : address.number
+            };
+
             await createOrder({
                 items: orderItems,
                 totalAmount,
-                shippingAddress: address
+                shippingAddress: finalAddress
             });
 
             setStep('success');
@@ -265,14 +295,23 @@ const CheckoutModal = () => {
                                 value={address.street}
                                 onChange={e => setAddress({ ...address, street: e.target.value })}
                             />
+                        </FormRow>
+                        <FormRow>
                             <Input
+                                type="number"
                                 placeholder="Number"
                                 value={address.number}
                                 onChange={e => setAddress({ ...address, number: e.target.value })}
-                                style={{ width: '100px' }}
+                                style={{ width: '120px' }}
+                            />
+                            <Input
+                                placeholder="Entrance (A, B...)"
+                                value={address.entrance}
+                                onChange={e => setAddress({ ...address, entrance: e.target.value })}
+                                style={{ width: '150px' }}
                             />
                         </FormRow>
-                        <Button onClick={handleAddressSubmit} style={{ width: '100%', backgroundColor: "#fbc0bbff" }}>
+                        <Button onClick={handleAddressSubmit} style={{ width: '100%', backgroundColor: "#fbc0bbff", marginTop: "10px" }}>
                             Proceed to Payment
                         </Button>
                     </>
@@ -287,7 +326,11 @@ const CheckoutModal = () => {
                                 {payment.cardNumber || '•••• •••• •••• ••••'}
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-                                <div>{payment.expiry || 'MM/YY'}</div>
+                                <div>
+                                    {payment.expiry 
+                                        ? `${payment.expiry.split('-')[1]}/${payment.expiry.split('-')[0].slice(2)}`
+                                        : 'MM/YY'}
+                                </div>
                                 <div>{payment.cvv || 'CVV'}</div>
                             </div>
                         </PaymentMock>
@@ -299,7 +342,8 @@ const CheckoutModal = () => {
                         />
                         <FormRow>
                             <Input
-                                placeholder="MM/YY"
+                                type="month"
+                                placeholder="Expiry Date"
                                 value={payment.expiry}
                                 onChange={e => setPayment({ ...payment, expiry: e.target.value })}
                             />
