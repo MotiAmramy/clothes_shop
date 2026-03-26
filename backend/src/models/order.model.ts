@@ -16,6 +16,11 @@ export interface IOrder extends Document {
     userId: Types.ObjectId;
     items: IOrderItem[];
     totalAmount: number;
+    shippingAddress: {
+        city: string;
+        street: string;
+        number: string;
+    };
 }
 
 const OrderItemSchema = new Schema<IOrderItem>(
@@ -38,6 +43,11 @@ const OrderSchema = new Schema<IOrder>(
         userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
         items: [OrderItemSchema],
         totalAmount: { type: Number, required: true },
+        shippingAddress: {
+            city: { type: String, required: true },
+            street: { type: String, required: true },
+            number: { type: String, required: true },
+        },
     },
     { timestamps: true }
 );

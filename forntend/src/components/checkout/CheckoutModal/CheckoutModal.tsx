@@ -157,22 +157,24 @@ const CheckoutModal = () => {
             return;
         }
 
-        // Credit Card Validation
+        // Credit Card Validation (mock – accepts any 13-19 digit number)
         const cleanCard = payment.cardNumber.replace(/\D/g, '');
-        const cardRegexes = [
-            /^4\d{12}(?:\d{3})?$/, // Visa
-            /^(?:5[1-5]\d{2}|222[1-9]|22[3-9]\d|2[3-6]\d{2}|27[01]\d|2720)\d{12}$/, // MasterCard
-            /^3[47]\d{13}$/, // Amex
-            /^\d{8,9}$/ // Israeli Local (Isracard)
-        ];
-        
-        if (!cardRegexes.some(regex => regex.test(cleanCard))) {
-            toast.error("Invalid credit card number (Check length and prefix)");
+        if (!/^\d{13,19}$/.test(cleanCard)) {
+            toast.error("Invalid credit card number (must be 13–19 digits)");
             return;
         }
 
         if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(payment.expiry)) {
             toast.error("Please select a valid expiry date.");
+            return;
+        }
+
+        // Expiry must not be in the past
+        const [year, month] = payment.expiry.split('-').map(Number);
+        const now = new Date();
+        const expiryDate = new Date(year, month - 1, 1);
+        if (expiryDate < new Date(now.getFullYear(), now.getMonth(), 1)) {
+            toast.error("Your card has expired");
             return;
         }
 
@@ -213,8 +215,9 @@ const CheckoutModal = () => {
                 clearCart();
             }, 500);
         } catch (error) {
+            const message = error instanceof Error ? error.message : "Failed to place order. Please try again.";
             console.error("Order failed", error);
-            toast.error("Failed to place order. Please try again.");
+            toast.error(message);
         } finally {
             setLoading(false);
         }
@@ -323,11 +326,13 @@ const CheckoutModal = () => {
                         <PaymentMock>
                             <div>CARD NUMBER</div>
                             <div style={{ fontSize: '1.2rem', letterSpacing: '2px' }}>
-                                {payment.cardNumber || '•••• •••• •••• ••••'}
+                                {payment.cardNumber
+                                    ? payment.cardNumber.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').trim()
+                                    : '•••• •••• •••• ••••'}
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
                                 <div>
-                                    {payment.expiry 
+                                    {payment.expiry
                                         ? `${payment.expiry.split('-')[1]}/${payment.expiry.split('-')[0].slice(2)}`
                                         : 'MM/YY'}
                                 </div>
@@ -336,9 +341,15 @@ const CheckoutModal = () => {
                         </PaymentMock>
 
                         <Input
-                            placeholder="Card Number"
+                            placeholder="Card Number (e.g. 4111 1111 1111 1111)"
                             value={payment.cardNumber}
-                            onChange={e => setPayment({ ...payment, cardNumber: e.target.value })}
+                            maxLength={19}
+                            onChange={e => {
+                                // Auto-format: add a space every 4 digits
+                                const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
+                                const formatted = raw.replace(/(\d{4})(?=\d)/g, '$1 ');
+                                setPayment({ ...payment, cardNumber: formatted });
+                            }}
                         />
                         <FormRow>
                             <Input
@@ -350,7 +361,11 @@ const CheckoutModal = () => {
                             <Input
                                 placeholder="CVV"
                                 value={payment.cvv}
-                                onChange={e => setPayment({ ...payment, cvv: e.target.value })}
+                                maxLength={4}
+                                onChange={e => {
+                                    const digits = e.target.value.replace(/\D/g, '').slice(0, 4);
+                                    setPayment({ ...payment, cvv: digits });
+                                }}
                             />
                         </FormRow>
 

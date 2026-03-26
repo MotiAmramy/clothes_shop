@@ -11,16 +11,21 @@ export const createOrder = async (req: AuthRequest, res: Response) => {
             return res.status(401).json({ message: "User not identified" });
         }
 
-        const { items, totalAmount } = req.body;
+        const { items, totalAmount, shippingAddress } = req.body;
 
         if (!items || !Array.isArray(items) || items.length === 0) {
             return res.status(400).json({ message: "Order must contain items" });
+        }
+
+        if (!shippingAddress || !shippingAddress.city || !shippingAddress.street) {
+            return res.status(400).json({ message: "Shipping address is required" });
         }
 
         const newOrder = new Order({
             userId,
             items,
             totalAmount,
+            shippingAddress,
         });
 
         await newOrder.save();
